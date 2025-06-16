@@ -1,50 +1,45 @@
-# Welcome to your Expo app 👋
+# Lumen Client
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**A cross-platform, truth-first educational app built with Expo, React Native, and Tailwind CSS.**
 
-## Get started
+Lumen empowers people with unbiased knowledge across religions, history, and modern media.  
+It is part of a broader initiative to combat misinformation and foster critical, ethical thinking.
 
-1. Install dependencies
+## 📦 Tech Stack
 
-   ```bash
-   npm install
-   ```
+- Expo SDK 53
+- React Native 0.79
+- React 19
+- Expo Router v5
+- Tailwind CSS via NativeWind v4
+- TypeScript
 
-2. Start the app
+## 🚀 Project Goals
 
-   ```bash
-   npx expo start
-   ```
+- Combat misinformation and promote transparent education
+- Empower people with cross-cultural and interfaith understanding
+- Build a sustainable, ethically monetized platform for truth
 
-In the output, you'll find options to open the app in a
+## 💰 Commercial Use
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+This project is developed with long-term monetization in mind — including premium modules, educational subscriptions, and media verification tools.  
+**Please do not resell or repackage without permission.**
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+For licensing, commercial partnerships, or integration inquiries:  
+📧 1996raiden27@gmail.com
 
-## Get a fresh project
+## ⚖️ License
 
-When you're ready, run:
+Licensed under the [MIT License](./LICENSE).
 
-```bash
-npm run reset-project
-```
+## ⚠️ Ethical Use Notice
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+> This project exists to promote truth, education, and transparency.  
+> It must **not** be used for manipulative, harmful, or deceptive purposes — especially in relation to misinformation, religious intolerance, or abuse of public knowledge.  
+> We reserve the right to deny support or integration to unethical projects.
 
-## Learn more
+## 🙌 Contributing
 
-To learn more about developing your project with Expo, look at the following resources:
+We welcome ethical contributions and respectful collaboration.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+See [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before participating.
