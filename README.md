@@ -43,3 +43,29 @@ Licensed under the [MIT License](./LICENSE).
 We welcome ethical contributions and respectful collaboration.
 
 See [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) before participating.
+
+---
+
+## 🛠 Known Development Warnings
+
+### ⚠️ `"shadow*"` style props are deprecated (Web only)
+
+You may see this harmless warning in your browser console during development:
+
+#### Why it happens:
+
+This warning is emitted by `react-native-web` or `react-navigation` when rendering headers or views on Web. These libraries internally use deprecated `shadow*` props.
+
+#### ✅ Safe to Ignore:
+
+- Appears only during **development**
+- Does **not** show in production
+- Does **not** affect styles or behavior
+- Cannot currently be fully suppressed due to how React Native Web logs deep lifecycle warnings
+
+We’ve already:
+
+- Replaced all `shadow-*` usage in our own code
+- Tried `LogBox.ignoreLogs()` and manual `console.error` patching
+
+If you contribute, **please ignore this warning — it has no effect**.
