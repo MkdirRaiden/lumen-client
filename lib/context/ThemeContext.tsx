@@ -1,22 +1,27 @@
+import {
+  loadThemeFromStorage,
+  saveThemeToStorage,
+} from "@utils/theme/themeStorage";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   Platform,
   useColorScheme as useSystemColorScheme,
   View,
 } from "react-native";
-import {
-  loadThemeFromStorage,
-  saveThemeToStorage,
-} from "../../utils/theme/themeStorage";
+
+import dark from "@lib/theme/dark";
+import light from "@lib/theme/light";
 
 type Theme = "light" | "dark";
 
 const ThemeContext = createContext<{
   theme: Theme;
   toggleTheme: () => void;
+  themeColors: typeof light; // assuming both dark and light have same structure
 }>({
   theme: "light",
   toggleTheme: () => {},
+  themeColors: light,
 });
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
@@ -50,13 +55,19 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const isWeb = Platform.OS === "web";
   const Wrapper = isWeb ? "div" : View;
   const wrapperProps = isWeb
-    ? { className: theme === "dark" ? "dark" : "" }
+    ? { className: theme === "dark" ? "dark flex flex-1" : "flex flex-1" }
     : { className: theme === "dark" ? "dark flex-1" : "flex-1" };
 
   if (!isReady) return null;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        toggleTheme,
+        themeColors: theme === "dark" ? dark : light,
+      }}
+    >
       <Wrapper {...wrapperProps}>{children}</Wrapper>
     </ThemeContext.Provider>
   );

@@ -1,4 +1,4 @@
-const Light = {
+const light = {
   "--color-bg": "253 253 253",
   "--color-text": "26 26 26",
   "--color-primary": "255 178 0", // Lumen Gold
@@ -10,4 +10,4 @@ const Light = {
   "--gradient-end": "255 212 121",
 };
 
-export default Light;
+export default light;

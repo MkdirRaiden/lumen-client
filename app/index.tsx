@@ -1,5 +1,5 @@
+import { useTheme } from "@lib/context/ThemeContext";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../lib/context/ThemeContext";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
