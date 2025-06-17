@@ -2,7 +2,7 @@ import {
   loadThemeFromStorage,
   saveThemeToStorage,
 } from "@utils/theme/themeStorage";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   Platform,
   useColorScheme as useSystemColorScheme,
@@ -14,14 +14,18 @@ import light from "@lib/theme/light";
 
 type Theme = "light" | "dark";
 
-const ThemeContext = createContext<{
+export type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
-  themeColors: typeof light; // assuming both dark and light have same structure
-}>({
+  themeColors: typeof light;
+  isReady: boolean;
+};
+
+export const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   toggleTheme: () => {},
   themeColors: light,
+  isReady: false,
 });
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
@@ -66,11 +70,10 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         theme,
         toggleTheme,
         themeColors: theme === "dark" ? dark : light,
+        isReady,
       }}
     >
       <Wrapper {...wrapperProps}>{children}</Wrapper>
     </ThemeContext.Provider>
   );
 };
-
-export const useTheme = () => useContext(ThemeContext);

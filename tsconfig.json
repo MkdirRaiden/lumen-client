@@ -2,12 +2,12 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "baseUrl": ".", // Required for path aliases to work
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@ts-types/*": ["types/*"] //to avoid type conflict
     }
   },
   "include": [
@@ -15,6 +15,7 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    "types/**/*.ts"
   ]
 }

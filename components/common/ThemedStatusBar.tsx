@@ -1,4 +1,4 @@
-import { useTheme } from "@lib/context/ThemeContext";
+import { useTheme } from "@lib/hooks/useTheme";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Platform, View } from "react-native";

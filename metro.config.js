@@ -2,16 +2,18 @@ const { getDefaultConfig } = require("expo/metro-config");
 const { withNativeWind } = require("nativewind/metro");
 const path = require("path");
 
-const config = getDefaultConfig(__dirname);
+const projectRoot = __dirname;
 
-// Add alias support for cleaner imports
-config.resolver.alias = {
-    "@": path.resolve(__dirname),
-    "@components": path.resolve(__dirname, "components"),
-    "@lib": path.resolve(__dirname, "lib"),
-    "@utils": path.resolve(__dirname, "utils")
+const config = getDefaultConfig(projectRoot);
+
+config.resolver.extraNodeModules = {
+    "@": projectRoot,
+    "@components": path.resolve(projectRoot, "components"),
+    "@lib": path.resolve(projectRoot, "lib"),
+    "@utils": path.resolve(projectRoot, "utils"),
+    "@types": path.resolve(projectRoot, "types"),
 };
 
 module.exports = withNativeWind(config, {
-    input: "./global.css", // make sure this file exists at the root
+    input: "./global.css", // Make sure global.css exists at the root
 });
