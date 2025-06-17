@@ -1,12 +1,13 @@
-import { useTheme } from "@lib/context/ThemeContext";
+import TestReanimated from "@/components/test/TestReanimated";
 import { Pressable, Text, View } from "react-native";
+import { useTheme } from "../lib/context/ThemeContext";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <View className="flex-1 items-center justify-center bg-bg px-4">
-      <Text className="text-text text-2xl font-bold mb-4">
+    <View className="flex-1 items-center justify-center bg-bg px-4 space-y-6">
+      <Text className="text-text text-2xl font-bold">
         {theme === "dark" ? "Dark Mode 🌙" : "Light Mode ☀️"}
       </Text>
 
@@ -16,6 +17,8 @@ export default function Home() {
       >
         <Text className="text-white font-semibold">Toggle Theme</Text>
       </Pressable>
+
+      <TestReanimated />
     </View>
   );
 }
