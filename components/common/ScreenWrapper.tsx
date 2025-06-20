@@ -1,5 +1,3 @@
-import { Header } from "@components/common/Header";
-import { useTheme } from "@lib/hooks/useTheme";
 import { ReactNode } from "react";
 import {
   KeyboardAvoidingView,
@@ -22,7 +20,6 @@ export default function ScreenWrapper({
   padded = true,
   centered = false,
 }: ScreenWrapperProps) {
-  const { isReady } = useTheme();
   const Container = scroll ? ScrollView : View;
 
   const outerClass = `flex-1 bg-screen ${padded ? "px-4" : ""}`;
@@ -41,7 +38,6 @@ export default function ScreenWrapper({
   return (
     <SafeAreaView className="flex-1">
       <KeyboardAvoidingView className="flex-1">
-        {isReady && <Header />}
         <Container
           className={outerClass}
           contentContainerStyle={contentStyle}

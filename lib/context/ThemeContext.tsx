@@ -1,10 +1,8 @@
-import {
-  loadThemeFromStorage,
-  saveThemeToStorage,
-} from "@utils/theme/themeStorage";
+import { getInitialTheme, saveThemeToStorage } from "@utils/theme/themeStorage";
 import React, { createContext, useEffect, useState } from "react";
 import {
   Platform,
+  StyleSheet,
   useColorScheme as useSystemColorScheme,
   View,
 } from "react-native";
@@ -31,38 +29,62 @@ export const ThemeContext = createContext<ThemeContextType>({
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const systemScheme = useSystemColorScheme();
   const [theme, setTheme] = useState<Theme>("light");
+  const [themeColors, setThemeColors] = useState(light);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      const storedTheme = await loadThemeFromStorage(
-        systemScheme === "dark" ? "dark" : "light"
-      );
-      setTheme(storedTheme);
-      setIsReady(true);
+      try {
+        const fallback = systemScheme === "dark" ? "dark" : "light";
+        const storedTheme = await getInitialTheme(fallback);
+        setTheme(storedTheme);
+        setThemeColors(storedTheme === "dark" ? dark : light);
+      } catch (e) {
+        console.error("❌ Theme loading error:", e);
+      } finally {
+        setIsReady(true); //
+      }
     };
     init();
-  }, [systemScheme]);
+  }, []);
 
   useEffect(() => {
-    if (Platform.OS === "web") {
-      document.documentElement.classList.toggle("dark", theme === "dark");
+    if (Platform.OS === "web" && isReady) {
+      const root = document.documentElement;
+      root.classList.toggle("dark", theme === "dark");
+      for (const [key, value] of Object.entries(themeColors)) {
+        root.style.setProperty(key, value);
+      }
     }
-  }, [theme]);
+  }, [theme, themeColors, isReady]);
 
   const toggleTheme = async () => {
-    setIsReady(false); // 🔧 Fix: pause rendering during theme switch
+    if (!isReady) return;
+    setIsReady(false);
     const next = theme === "dark" ? "light" : "dark";
     await saveThemeToStorage(next);
     setTheme(next);
-    setIsReady(true); // ✅ Restore readiness
+    setThemeColors(next === "dark" ? dark : light);
+    setIsReady(true);
   };
 
-  const isWeb = Platform.OS === "web";
-  const Wrapper = isWeb ? "div" : View;
-  const wrapperProps = isWeb
-    ? { className: theme === "dark" ? "dark flex flex-1" : "flex flex-1" }
-    : { className: theme === "dark" ? "dark flex-1" : "flex-1" };
+  const themeStyle =
+    Platform.OS === "web"
+      ? undefined
+      : StyleSheet.create({
+          root: Object.fromEntries(
+            Object.entries(themeColors).map(([k, v]) => [k, v])
+          ) as any,
+        }).root;
+
+  const Wrapper = Platform.OS === "web" ? "div" : View;
+  const wrapperProps =
+    Platform.OS === "web"
+      ? { className: theme === "dark" ? "dark flex flex-1" : "flex flex-1" }
+      : {
+          className: theme === "dark" ? "dark flex-1" : "flex-1",
+          style: themeStyle,
+        };
 
   if (!isReady) return null;
 
@@ -71,7 +93,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         theme,
         toggleTheme,
-        themeColors: theme === "dark" ? dark : light,
+        themeColors,
         isReady,
       }}
     >

@@ -1,4 +1,4 @@
-import { useTheme, useThemeColors } from "@lib/hooks/useTheme";
+import { useThemeColors } from "@lib/hooks/useTheme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Pressable, Text } from "react-native";
@@ -6,7 +6,6 @@ import { Pressable, Text } from "react-native";
 export const HeroBanner = () => {
   const router = useRouter();
   const { get } = useThemeColors();
-  const { theme } = useTheme(); // 👈 ensure reactivity on toggle
 
   const gradientColors = [
     `rgb(${get("--gradient-start")})`,
