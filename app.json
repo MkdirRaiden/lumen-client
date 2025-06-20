@@ -1,40 +1,51 @@
 {
   "expo": {
-    "name": "lumen-client",
-    "slug": "lumen-client",
+    "name": "Lumen",
+    "slug": "lumen",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "lumenclient",
-    "userInterfaceStyle": "automatic",
+    "icon": "./assets/logos/icon.png",
+    "scheme": "lumen",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
+
     "ios": {
       "supportsTablet": true
     },
+
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logos/adaptive-icon.png",
+        "backgroundColor": "#0F0F0F"
       },
       "edgeToEdgeEnabled": true
     },
+
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/logos/favicon.png"
     },
+
+    "splash": {
+      "image": "./assets/logos/lumen-logo-dark.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F0F0F"
+    },
+
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/logos/lumen-logo-dark.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#0F0F0F"
         }
       ]
     ],
+
     "experiments": {
       "typedRoutes": true
     }

@@ -1,14 +1,12 @@
-import { Header } from "@components/home/Header";
+import ScreenWrapper from "@components/common/ScreenWrapper";
 import { HeroBanner } from "@components/home/HeroBanner";
 import { ModulesList } from "@components/home/ModulesList";
-import { ScrollView } from "react-native";
 
 export default function HomeScreen() {
   return (
-    <ScrollView className="flex-1 bg-bg">
-      <Header />
+    <ScreenWrapper scroll>
       <HeroBanner />
       <ModulesList />
-    </ScrollView>
+    </ScreenWrapper>
   );
 }

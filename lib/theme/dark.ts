@@ -6,10 +6,11 @@ const dark: Record<SemanticColor, string> = {
   "--color-primary": "255 200 61", // Candlelight Gold
   "--color-secondary": "79 157 255", // Electric Blue
   "--color-accent": "44 44 44", // Dark Surface
-  "--color-muted": "55 65 81", // Cool Gray
+  "--color-muted": "107 114 128", // Softer Cool Gray
+  "--color-screen": "24 24 24", // NEW softer dark for screen wrapper
   "--shadow-color": "255 255 255 / 0.04",
-  "--gradient-start": "255 200 61", // Gradient Start
-  "--gradient-end": "79 157 255", // Gradient End
+  "--gradient-start": "255 200 61",
+  "--gradient-end": "79 157 255",
 };
 
 export default dark;

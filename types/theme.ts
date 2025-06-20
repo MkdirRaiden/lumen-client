@@ -2,6 +2,7 @@
 
 export type SemanticColor =
   | "--color-bg"
+  | "--color-screen"
   | "--color-text"
   | "--color-primary"
   | "--color-secondary"

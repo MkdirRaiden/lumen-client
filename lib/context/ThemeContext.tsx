@@ -51,9 +51,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, [theme]);
 
   const toggleTheme = async () => {
+    setIsReady(false); // 🔧 Fix: pause rendering during theme switch
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
     await saveThemeToStorage(next);
+    setTheme(next);
+    setIsReady(true); // ✅ Restore readiness
   };
 
   const isWeb = Platform.OS === "web";

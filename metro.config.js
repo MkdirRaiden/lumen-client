@@ -11,6 +11,7 @@ config.resolver.extraNodeModules = {
     "@components": path.resolve(projectRoot, "components"),
     "@lib": path.resolve(projectRoot, "lib"),
     "@utils": path.resolve(projectRoot, "utils"),
+    "@assets": path.resolve(projectRoot, "assets"),
     "@types": path.resolve(projectRoot, "types"),
 };
 

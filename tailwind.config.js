@@ -13,7 +13,15 @@ module.exports = {
   ],
   darkMode: "class", // toggle "dark" class at root
   presets: [require("nativewind/preset")],
-  theme: themeTokens,
+  theme: {
+    extend: {
+      ...themeTokens, // keep our semantic tokens here
+      fontFamily: {
+        sans: ["IBMPlexSans", "sans-serif"],
+        heading: ["IBMPlexSans-Bold", "sans-serif"], // optional
+      },
+    },
+  },
   plugins: [
     plugin(({ addBase }) => {
       addBase({
