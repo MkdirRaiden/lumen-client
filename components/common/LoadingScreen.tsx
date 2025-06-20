@@ -1,4 +1,3 @@
-import { useThemeColors } from "@lib/hooks/useTheme";
 import { useEffect, useRef } from "react";
 import {
   ActivityIndicator,
@@ -9,13 +8,15 @@ import {
   View,
 } from "react-native";
 
+import { useThemeColors } from "@lib/hooks/useTheme";
+
 export default function LoadingScreen() {
-  console.log("⌛ Showing LoadingScreen");
-  const { get } = useThemeColors();
+  const { get } = useThemeColors(); // Get CSS variable values
+
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, {
           toValue: 1.3,
@@ -30,32 +31,47 @@ export default function LoadingScreen() {
           useNativeDriver: true,
         }),
       ])
-    ).start();
-  }, []);
+    );
+
+    animation.start();
+    return () => animation.stop(); // Clean up on unmount
+  }, [pulseAnim]);
+
+  const primary = `rgb(${get("--color-primary")})`;
+  const background = `rgb(${get("--color-bg")})`;
 
   return (
-    <View className="flex-1 items-center justify-center bg-bg">
-      {/* Native spinner */}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: background,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <ActivityIndicator
         size="large"
-        color={
-          Platform.OS === "web" ? undefined : `rgb(${get("--color-primary")})`
-        }
+        color={Platform.OS === "web" ? undefined : primary}
       />
 
-      {/* App tagline */}
-      <Text className="mt-4 text-primary text-lg font-semibold tracking-wide">
+      <Text
+        style={{
+          marginTop: 16,
+          color: primary,
+          fontSize: 18,
+          fontWeight: "600",
+        }}
+      >
         Lighting up truth...
       </Text>
 
-      {/* Pulsing light orb */}
       <Animated.View
-        className="mt-6"
         style={{
+          marginTop: 24,
           width: 16,
           height: 16,
           borderRadius: 9999,
-          backgroundColor: `rgb(${get("--color-primary")})`,
+          backgroundColor: primary,
           shadowColor: `rgba(${get("--color-primary")}, 0.5)`,
           shadowOpacity: 0.6,
           shadowOffset: { width: 0, height: 0 },

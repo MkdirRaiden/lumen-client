@@ -1,24 +1,28 @@
 import { Feather } from "@expo/vector-icons";
 import { useTheme, useThemeColors } from "@lib/hooks/useTheme";
+import * as Haptics from "expo-haptics";
 import { Pressable } from "react-native";
 import Animated, { FadeIn, FadeOut, ZoomIn } from "react-native-reanimated";
 
 export const ThemeToggle = () => {
-  const { theme, toggleTheme, isReady } = useTheme();
+  const { theme, toggleTheme, themeVersion } = useTheme(); // 👈 include version
   const { get } = useThemeColors();
   const isDark = theme === "dark";
 
-  if (!isReady) return null;
+  const handleToggle = () => {
+    Haptics.selectionAsync();
+    toggleTheme();
+  };
 
   return (
     <Pressable
-      onPress={toggleTheme}
+      onPress={handleToggle}
       accessibilityLabel="Toggle theme"
       accessibilityRole="button"
-      className="p-2 rounded-full bg-muted/20"
+      className="p-2 rounded-full bg-muted/10"
     >
       <Animated.View
-        key={theme}
+        key={themeVersion}
         entering={FadeIn.springify()}
         exiting={FadeOut}
         layout={ZoomIn}
@@ -26,7 +30,7 @@ export const ThemeToggle = () => {
         <Feather
           name={isDark ? "sun" : "moon"}
           size={20}
-          color={`rgb(${get("--color-text")})`} // ✅ Fully reactive via hook
+          color={`rgb(${get("--color-text")})`}
         />
       </Animated.View>
     </Pressable>

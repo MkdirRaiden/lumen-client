@@ -1,5 +1,6 @@
+import LoadingScreen from "@components/common/LoadingScreen";
 import { getInitialTheme, saveThemeToStorage } from "@utils/theme/themeStorage";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import {
   Platform,
   StyleSheet,
@@ -17,6 +18,7 @@ export type ThemeContextType = {
   toggleTheme: () => void;
   themeColors: typeof light;
   isReady: boolean;
+  themeVersion: number;
 };
 
 export const ThemeContext = createContext<ThemeContextType>({
@@ -24,6 +26,7 @@ export const ThemeContext = createContext<ThemeContextType>({
   toggleTheme: () => {},
   themeColors: light,
   isReady: false,
+  themeVersion: 0,
 });
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
@@ -31,19 +34,15 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>("light");
   const [themeColors, setThemeColors] = useState(light);
   const [isReady, setIsReady] = useState(false);
+  const [themeVersion, setThemeVersion] = useState(0);
 
   useEffect(() => {
     const init = async () => {
-      try {
-        const fallback = systemScheme === "dark" ? "dark" : "light";
-        const storedTheme = await getInitialTheme(fallback);
-        setTheme(storedTheme);
-        setThemeColors(storedTheme === "dark" ? dark : light);
-      } catch (e) {
-        console.error("❌ Theme loading error:", e);
-      } finally {
-        setIsReady(true); //
-      }
+      const fallback = systemScheme === "dark" ? "dark" : "light";
+      const storedTheme = await getInitialTheme(fallback);
+      setTheme(storedTheme);
+      setThemeColors(storedTheme === "dark" ? dark : light);
+      setIsReady(true);
     };
     init();
   }, []);
@@ -58,22 +57,20 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [theme, themeColors, isReady]);
 
-  const toggleTheme = async () => {
-    if (!isReady) return;
-    setIsReady(false);
+  const toggleTheme = useCallback(async () => {
     const next = theme === "dark" ? "light" : "dark";
     await saveThemeToStorage(next);
     setTheme(next);
     setThemeColors(next === "dark" ? dark : light);
-    setIsReady(true);
-  };
+    setThemeVersion((v) => v + 1);
+  }, [theme]);
 
   const themeStyle =
     Platform.OS === "web"
       ? undefined
       : StyleSheet.create({
           root: Object.fromEntries(
-            Object.entries(themeColors).map(([k, v]) => [k, v])
+            Object.entries(themeColors).map(([key, value]) => [key, value])
           ) as any,
         }).root;
 
@@ -86,7 +83,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
           style: themeStyle,
         };
 
-  if (!isReady) return null;
+  if (!isReady) return <LoadingScreen />;
 
   return (
     <ThemeContext.Provider
@@ -95,6 +92,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         toggleTheme,
         themeColors,
         isReady,
+        themeVersion,
       }}
     >
       <Wrapper {...wrapperProps}>{children}</Wrapper>

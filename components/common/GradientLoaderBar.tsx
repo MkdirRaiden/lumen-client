@@ -1,32 +1,36 @@
-import { useThemeColors } from "@lib/hooks/useTheme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef } from "react";
-import { Animated, Easing, View } from "react-native";
+import { Animated, Easing, View, ViewStyle } from "react-native";
+
+import { useThemeColors } from "@lib/hooks/useTheme";
 
 export default function GradientLoaderBar() {
   const { get } = useThemeColors();
-  const translateX = useRef(new Animated.Value(-100)).current;
+  const translateX = useRef(new Animated.Value(-150)).current;
 
   useEffect(() => {
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.timing(translateX, {
-        toValue: 300, // Width over which it slides
+        toValue: 300, // Adjust based on container width
         duration: 1500,
-        useNativeDriver: true,
         easing: Easing.linear,
+        useNativeDriver: true,
       })
-    ).start();
-  }, []);
+    );
+
+    animation.start();
+    return () => animation.stop(); // Clean up on unmount
+  }, [translateX]);
+
+  const animatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
+    width: 150,
+    height: "100%",
+    transform: [{ translateX }],
+  };
 
   return (
-    <View className="h-2 w-full overflow-hidden rounded-full bg-muted mt-6">
-      <Animated.View
-        style={{
-          width: 150,
-          height: "100%",
-          transform: [{ translateX }],
-        }}
-      >
+    <View className="mt-6 h-2 w-full overflow-hidden rounded-full bg-muted">
+      <Animated.View style={animatedStyle}>
         <LinearGradient
           colors={[
             `rgb(${get("--gradient-start")})`,

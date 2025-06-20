@@ -1,14 +1,16 @@
-import { useThemeColors } from "@lib/hooks/useTheme";
 import { useEffect, useRef } from "react";
-import { Animated, Easing } from "react-native";
+import { Animated, Easing, ViewStyle } from "react-native";
 import { Path, Svg } from "react-native-svg";
+
+import { useThemeColors } from "@lib/hooks/useTheme";
 
 export default function Flame() {
   const { get } = useThemeColors();
   const flicker = useRef(new Animated.Value(1)).current;
 
+  // Start flicker animation on mount
   useEffect(() => {
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.sequence([
         Animated.timing(flicker, {
           toValue: 1.1,
@@ -23,18 +25,22 @@ export default function Flame() {
           easing: Easing.inOut(Easing.ease),
         }),
       ])
-    ).start();
-  }, []);
+    );
+
+    animation.start();
+
+    return () => animation.stop(); // Cleanup on unmount
+  }, [flicker]);
+
+  const animatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
+    transform: [{ scale: flicker }],
+  };
 
   return (
-    <Animated.View
-      style={{
-        transform: [{ scale: flicker }],
-      }}
-    >
+    <Animated.View style={animatedStyle}>
       <Svg
-        height="40"
-        width="24"
+        height={40}
+        width={24}
         viewBox="0 0 24 24"
         fill={`rgb(${get("--color-primary")})`}
       >

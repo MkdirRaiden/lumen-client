@@ -17,15 +17,7 @@ const iconMap: Record<string, IconName> = {
   "shield-alert": "shield-alert-outline",
 };
 
-type Module = {
-  title: string;
-  description: string;
-  icon: keyof typeof iconMap;
-  route?: (typeof routes.stack)[keyof typeof routes.stack];
-  status: "active" | "coming-soon";
-};
-
-const modules: Module[] = [
+const modules = [
   {
     title: "Truth Across Religions",
     description: "Explore essence and contrasts of world religions.",
@@ -59,28 +51,36 @@ export const ModulesList = () => {
   const { theme } = useTheme();
 
   return (
-    <View className="space-y-2">
+    <View className="mt-6">
       {modules.map((module, idx) => {
         const iconName = iconMap[module.icon];
         const isComingSoon = module.status === "coming-soon";
+
+        const pressableClasses = [
+          "p-4 mb-3 rounded-xl",
+          "bg-bg",
+          isComingSoon && "opacity-50 bg-screen",
+          theme === "light" ? "shadow-sm" : "border border-muted",
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        const shadowStyle =
+          theme === "light"
+            ? { shadowColor: `rgb(${get("--shadow-color")})` }
+            : undefined;
 
         return (
           <Pressable
             key={String(idx)}
             onPress={() => {
-              if (module.route) {
-                router.push(module.route);
-              }
+              if (!isComingSoon && module.route) router.push(module.route);
             }}
-            className={`p-4 mb-4 rounded-xl bg-bg ${
-              isComingSoon ? "opacity-50 bg-muted/5" : ""
-            } ${theme === "light" ? "shadow-sm" : "border border-muted"}`}
+            className={pressableClasses}
+            style={shadowStyle}
             disabled={isComingSoon}
-            style={
-              theme === "light"
-                ? { shadowColor: `rgb(${get("--shadow-color")})` }
-                : undefined
-            }
+            accessibilityRole="button"
+            accessibilityLabel={module.title}
           >
             <View className="flex-row items-center gap-4">
               <MaterialCommunityIcons
@@ -90,19 +90,15 @@ export const ModulesList = () => {
               />
               <View className="flex-1">
                 <Text className="text-lg font-medium text-text">
-                  {String(module.title)}
+                  {module.title}
                 </Text>
-                <Text className="text-sm text-muted">
-                  {String(module.description)}
+                <Text className="text-sm text-muted/90">
+                  {module.description}
                 </Text>
               </View>
               {isComingSoon && (
-                <Text
-                  className={`text-xs font-medium ${
-                    theme === "light" ? "text-accent" : "text-muted"
-                  }`}
-                >
-                  {String("Coming Soon")}
+                <Text className="text-xs font-bold text-muted">
+                  Coming Soon
                 </Text>
               )}
             </View>

@@ -1,13 +1,12 @@
 import { useFonts } from "expo-font";
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
-import { View } from "react-native";
+import { useEffect, useState } from "react";
 
 import LoadingScreen from "@components/common/LoadingScreen";
 import ThemedStatusBar from "@components/common/ThemedStatusBar";
 import { ThemeProvider } from "@lib/context/ThemeContext";
-import { useThemeReady } from "@lib/hooks/useTheme"; // ✅ import this hook
+import { useThemeReady, useThemeVersion } from "@lib/hooks/useTheme";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -18,7 +17,6 @@ export default function Layout() {
     "IBMPlexSans-Bold": require("@assets/fonts/IBM-PlexSans-Bold.ttf"),
   });
 
-  // ✅ Show loading screen *outside* ThemeProvider
   if (!fontsLoaded) return <LoadingScreen />;
 
   return (
@@ -28,24 +26,25 @@ export default function Layout() {
   );
 }
 
-// ✅ Inside ThemeLayout — check for theme readiness
 function ThemeLayout() {
-  const isReady = useThemeReady();
+  const isThemeReady = useThemeReady();
+  const themeVersion = useThemeVersion();
+  const [splashHidden, setSplashHidden] = useState(false);
 
-  const onLayout = useCallback(async () => {
-    if (isReady) {
-      await SplashScreen.hideAsync();
+  useEffect(() => {
+    if (isThemeReady && !splashHidden) {
+      SplashScreen.hideAsync().then(() => setSplashHidden(true));
     }
-  }, [isReady]);
+  }, [isThemeReady, splashHidden]);
 
-  if (!isReady) {
+  if (!isThemeReady || !splashHidden) {
     return <LoadingScreen />;
   }
 
   return (
-    <View className="flex-1" onLayout={onLayout}>
+    <>
       <ThemedStatusBar />
-      <Slot />
-    </View>
+      <Slot key={themeVersion} />
+    </>
   );
 }

@@ -4,7 +4,11 @@ import { View } from "react-native";
 
 export const Header = () => {
   return (
-    <View className="flex-row justify-between items-center pe-4 bg-bg border-b border-muted/30">
+    <View
+      className="flex-row items-center justify-between pe-5 py-1 bg-bg border-b border-muted/30"
+      accessible
+      accessibilityRole="header"
+    >
       <Logo />
       <ThemeToggle />
     </View>

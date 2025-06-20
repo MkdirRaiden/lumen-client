@@ -9,23 +9,28 @@ export default function TabsLayout() {
   const { get } = useThemeColors();
   const insets = useSafeAreaInsets();
 
+  const tabBarBackground = `rgb(${get("--color-bg")})`;
+  const tabBarShadow = `rgb(${get("--shadow-color")})`;
+  const activeColor = `rgb(${get("--color-primary")})`;
+  const inactiveColor = `rgb(${get("--color-text")})`;
+
   return (
     <View className="flex-1">
-      {/* ✅ Shared persistent header for all tabs */}
+      {/* 🔒 Persistent header for all tab screens */}
       <Header />
 
       <Tabs
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: `rgb(${get("--color-primary")})`,
-          tabBarInactiveTintColor: `rgb(${get("--color-text")})`,
+          tabBarActiveTintColor: activeColor,
+          tabBarInactiveTintColor: inactiveColor,
           tabBarStyle: {
-            backgroundColor: `rgb(${get("--color-bg")})`,
+            backgroundColor: tabBarBackground,
             paddingBottom: insets.bottom || 8,
             paddingTop: 8,
             height: 60 + (insets.bottom || 0),
             borderTopWidth: 0,
-            shadowColor: `rgb(${get("--shadow-color")})`,
+            shadowColor: tabBarShadow,
             shadowOffset: { width: 0, height: -2 },
             shadowOpacity: 0.1,
             shadowRadius: 4,

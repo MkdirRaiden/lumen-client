@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import {
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   View,
@@ -22,9 +23,8 @@ export default function ScreenWrapper({
 }: ScreenWrapperProps) {
   const Container = scroll ? ScrollView : View;
 
-  const outerClass = `flex-1 bg-screen ${padded ? "px-4" : ""}`;
-
-  const contentStyle: ViewStyle | undefined = scroll
+  const containerClassName = `flex-1 bg-screen ${padded ? "px-4" : ""}`;
+  const contentContainerStyle: ViewStyle | undefined = scroll
     ? {
         paddingBottom: 24,
         ...(centered && {
@@ -33,14 +33,23 @@ export default function ScreenWrapper({
           flexGrow: 1,
         }),
       }
-    : undefined;
+    : centered
+      ? {
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }
+      : undefined;
 
   return (
     <SafeAreaView className="flex-1">
-      <KeyboardAvoidingView className="flex-1">
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <Container
-          className={outerClass}
-          contentContainerStyle={contentStyle}
+          className={containerClassName}
+          contentContainerStyle={contentContainerStyle}
           keyboardShouldPersistTaps="handled"
         >
           {children}

@@ -1,6 +1,5 @@
 import { useTheme } from "@lib/hooks/useTheme";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
 import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -13,6 +12,7 @@ export default function ThemedStatusBar() {
 
   return (
     <>
+      {/* Safe and correct View behind translucent StatusBar */}
       {Platform.OS !== "web" && (
         <View
           style={{
@@ -21,7 +21,13 @@ export default function ThemedStatusBar() {
           }}
         />
       )}
-      <StatusBar style={barStyle} translucent />
+
+      {/* Translucent status bar, no backgroundColor used here */}
+      <StatusBar
+        style={barStyle}
+        translucent
+        backgroundColor="transparent" // this avoids the warning
+      />
     </>
   );
 }

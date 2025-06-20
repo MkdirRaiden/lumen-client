@@ -12,13 +12,17 @@ export default function Logo() {
       ? require("@assets/logos/lumen-logo-dark.png")
       : require("@assets/logos/lumen-logo-light.png");
 
-  // ✅ Use a callback to prevent re-creation
   const goHome = useCallback(() => {
     router.push("/home");
   }, [router]);
 
   return (
-    <Pressable onPress={goHome} className="items-center justify-center">
+    <Pressable
+      onPress={goHome}
+      accessibilityRole="imagebutton"
+      accessibilityLabel="Go to Home"
+      className="items-center justify-center"
+    >
       <Image
         source={logoSource}
         style={{ width: 160, height: 60, resizeMode: "cover" }}

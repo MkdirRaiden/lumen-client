@@ -12,4 +12,14 @@ export type SemanticColor =
   | "--gradient-start"
   | "--gradient-end";
 
-export const semanticColor: SemanticColor[] = []; // dummy value, not used
+// For Tailwind class name helpers
+export type SemanticToken =
+  | "bg"
+  | "screen"
+  | "text"
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "muted";
+
+export const semanticColor: SemanticColor[] = []; // not used, just placeholder
