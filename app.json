@@ -8,11 +8,9 @@
     "scheme": "lumen",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
-
     "ios": {
       "supportsTablet": true
     },
-
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logos/adaptive-icon.png",
@@ -20,19 +18,16 @@
       },
       "edgeToEdgeEnabled": true
     },
-
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/logos/favicon.png"
     },
-
     "splash": {
       "image": "./assets/logos/lumen-logo-dark.png",
       "resizeMode": "contain",
       "backgroundColor": "#0F0F0F"
     },
-
     "plugins": [
       "expo-router",
       [
@@ -43,9 +38,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#0F0F0F"
         }
-      ]
+      ],
+      "expo-video"
     ],
-
     "experiments": {
       "typedRoutes": true
     }

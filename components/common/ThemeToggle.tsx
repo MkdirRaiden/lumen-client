@@ -5,7 +5,7 @@ import { Pressable } from "react-native";
 import Animated, { FadeIn, FadeOut, ZoomIn } from "react-native-reanimated";
 
 export const ThemeToggle = () => {
-  const { theme, toggleTheme, themeVersion } = useTheme(); // 👈 include version
+  const { theme, toggleTheme, themeVersion } = useTheme(); // include version
   const { get } = useThemeColors();
   const isDark = theme === "dark";
 
@@ -29,7 +29,7 @@ export const ThemeToggle = () => {
       >
         <Feather
           name={isDark ? "sun" : "moon"}
-          size={20}
+          size={22}
           color={`rgb(${get("--color-text")})`}
         />
       </Animated.View>

@@ -1,4 +1,5 @@
 import { useTheme } from "@lib/hooks/useTheme";
+import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { Image, Pressable } from "react-native";
@@ -13,7 +14,7 @@ export default function Logo() {
       : require("@assets/logos/lumen-logo-light.png");
 
   const goHome = useCallback(() => {
-    router.push("/home");
+    router.push(routes.tabs.home);
   }, [router]);
 
   return (

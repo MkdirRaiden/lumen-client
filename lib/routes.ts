@@ -1,5 +1,3 @@
-// lib/routes.ts
-
 export const routes = {
   tabs: {
     home: "/(tabs)/home" as const,
@@ -9,13 +7,11 @@ export const routes = {
   },
   stack: {
     truth: "/(stack)/truth" as const,
+    onboarding: {
+      screen1: "/(stack)/onboarding" as const,
+      screen2: "/(stack)/onboarding/screen2" as const,
+      screen3: "/(stack)/onboarding/screen3" as const,
+      screen4: "/(stack)/onboarding/screen4" as const,
+    },
   },
-  // You can add more sections later, e.g.:
-  // auth: {
-  //   login: "/(auth)/login" as const,
-  //   register: "/(auth)/register" as const,
-  // },
-  // modals: {
-  //   feedback: "/modal/feedback" as const,
-  // },
 };

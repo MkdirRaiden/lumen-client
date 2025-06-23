@@ -1,84 +1,63 @@
-import { useEffect, useRef } from "react";
-import {
-  ActivityIndicator,
-  Animated,
-  Easing,
-  Platform,
-  Text,
-  View,
-} from "react-native";
+import LottieView from "lottie-react-native";
+import { useEffect, useRef, useState } from "react";
+import { Animated, View } from "react-native";
 
-import { useThemeColors } from "@lib/hooks/useTheme";
+import dark from "@lib/theme/dark";
+import light from "@lib/theme/light";
+import { getInitialTheme } from "@utils/theme/themeStorage";
 
 export default function LoadingScreen() {
-  const { get } = useThemeColors(); // Get CSS variable values
-
-  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const translateX = useRef(new Animated.Value(-100)).current;
 
   useEffect(() => {
-    const animation = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, {
-          toValue: 1.3,
-          duration: 600,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 600,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ])
-    );
+    getInitialTheme("light").then(setTheme);
 
-    animation.start();
-    return () => animation.stop(); // Clean up on unmount
-  }, [pulseAnim]);
+    Animated.loop(
+      Animated.timing(translateX, {
+        toValue: 100,
+        duration: 1200,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
 
-  const primary = `rgb(${get("--color-primary")})`;
-  const background = `rgb(${get("--color-bg")})`;
+  const themeColors = theme === "dark" ? dark : light;
+  const cubeSource =
+    theme === "dark"
+      ? require("@assets/animations/lumen-cube-dark.json")
+      : require("@assets/animations/lumen-cube-light.json");
+
+  const backgroundColor = `rgb(${themeColors["--color-bg"]})`;
+  const primaryColor = `rgb(${themeColors["--color-primary"]})`;
+  const mutedColor = `rgb(${themeColors["--color-muted"]})`;
 
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: background,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      className="flex-1 justify-center items-center"
+      style={{ backgroundColor }}
     >
-      <ActivityIndicator
-        size="large"
-        color={Platform.OS === "web" ? undefined : primary}
+      {/* 🔆 Lottie cube */}
+      <LottieView
+        source={cubeSource}
+        autoPlay
+        loop
+        style={{ width: 120, height: 120 }}
       />
 
-      <Text
-        style={{
-          marginTop: 16,
-          color: primary,
-          fontSize: 18,
-          fontWeight: "600",
-        }}
+      {/* 🚧 Animated loading bar */}
+      <View
+        className="w-32 h-1.5 mt-6 rounded-full overflow-hidden"
+        style={{ backgroundColor: `${mutedColor}33` }}
       >
-        Lighting up truth...
-      </Text>
-
-      <Animated.View
-        style={{
-          marginTop: 24,
-          width: 16,
-          height: 16,
-          borderRadius: 9999,
-          backgroundColor: primary,
-          shadowColor: `rgba(${get("--color-primary")}, 0.5)`,
-          shadowOpacity: 0.6,
-          shadowOffset: { width: 0, height: 0 },
-          shadowRadius: 12,
-          transform: [{ scale: pulseAnim }],
-        }}
-      />
+        <Animated.View
+          className="absolute w-1/2 h-full rounded-full"
+          style={{
+            backgroundColor: primaryColor,
+            transform: [{ translateX }],
+          }}
+        />
+      </View>
     </View>
   );
 }

@@ -1,4 +1,7 @@
+// app/(stack)/_layout.tsx
+
 import { useThemeColors } from "@lib/hooks/useTheme";
+import { getRouteName } from "@utils/routeNames";
 import { Stack } from "expo-router";
 
 export default function StackLayout() {
@@ -10,6 +13,8 @@ export default function StackLayout() {
   return (
     <Stack
       screenOptions={{
+        animation: "fade_from_bottom",
+        headerShown: false,
         headerStyle: {
           backgroundColor: background,
         },
@@ -21,9 +26,14 @@ export default function StackLayout() {
         contentStyle: {
           backgroundColor: background,
         },
-        animation: "fade", // optional: can be changed to 'slide_from_right' etc.
-        headerShadowVisible: false, // cleaner look (enable if needed)
+        headerShadowVisible: false,
       }}
-    />
+    >
+      <Stack.Screen name={getRouteName("onboarding1")} />
+      <Stack.Screen name={getRouteName("onboarding2")} />
+      <Stack.Screen name={getRouteName("onboarding3")} />
+      <Stack.Screen name={getRouteName("onboarding4")} />
+      <Stack.Screen name={getRouteName("truth")} options={{ title: "Truth" }} />
+    </Stack>
   );
 }

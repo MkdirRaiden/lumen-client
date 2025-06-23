@@ -12,21 +12,25 @@ export default function ThemedStatusBar() {
 
   return (
     <>
-      {/* Safe and correct View behind translucent StatusBar */}
+      {/* Simulated background behind translucent status bar */}
       {Platform.OS !== "web" && (
         <View
           style={{
             height: insets.top,
             backgroundColor,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: -1,
           }}
         />
       )}
 
-      {/* Translucent status bar, no backgroundColor used here */}
       <StatusBar
         style={barStyle}
         translucent
-        backgroundColor="transparent" // this avoids the warning
+        // backgroundColor="transparent" ← optional; can be removed
       />
     </>
   );

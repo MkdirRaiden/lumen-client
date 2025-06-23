@@ -1,46 +1,41 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useTheme, useThemeColors } from "@lib/hooks/useTheme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 
-type IconName =
-  | "book-open-variant"
-  | "shield-alert-outline"
-  | "history"
-  | "atom-variant";
-
-const iconMap: Record<string, IconName> = {
-  book: "book-open-variant",
-  history: "history",
-  science: "atom-variant",
-  "shield-alert": "shield-alert-outline",
+type Module = {
+  title: string;
+  description: string;
+  icon: keyof typeof Feather.glyphMap;
+  route?: string;
+  status: "active" | "coming-soon";
 };
 
-const modules = [
+const modules: Module[] = [
   {
     title: "Truth Across Religions",
     description: "Explore essence and contrasts of world religions.",
-    icon: "book",
+    icon: "book-open",
     route: routes.stack.truth,
     status: "active",
   },
   {
     title: "Explore History",
     description: "Understand history from critical and verified sources.",
-    icon: "history",
+    icon: "clock",
     status: "coming-soon",
   },
   {
     title: "Science & Religion",
     description: "Discover where science and faith align or conflict.",
-    icon: "science",
+    icon: "aperture",
     status: "coming-soon",
   },
   {
     title: "Fight Misinformation",
     description: "Verify claims with ethical tools.",
-    icon: "shield-alert",
+    icon: "shield",
     status: "coming-soon",
   },
 ];
@@ -51,14 +46,13 @@ export const ModulesList = () => {
   const { theme } = useTheme();
 
   return (
-    <View className="mt-6">
+    <View className="mt-8">
       {modules.map((module, idx) => {
-        const iconName = iconMap[module.icon];
         const isComingSoon = module.status === "coming-soon";
 
         const pressableClasses = [
           "p-4 mb-3 rounded-xl",
-          "bg-bg",
+          "bg-bg min-h-24",
           isComingSoon && "opacity-50 bg-screen",
           theme === "light" ? "shadow-sm" : "border border-muted",
         ]
@@ -72,9 +66,11 @@ export const ModulesList = () => {
 
         return (
           <Pressable
-            key={String(idx)}
+            key={idx}
             onPress={() => {
-              if (!isComingSoon && module.route) router.push(module.route);
+              if (!isComingSoon && module.route) {
+                router.push(module.route as any);
+              }
             }}
             className={pressableClasses}
             style={shadowStyle}
@@ -83,9 +79,9 @@ export const ModulesList = () => {
             accessibilityLabel={module.title}
           >
             <View className="flex-row items-center gap-4">
-              <MaterialCommunityIcons
-                name={iconName}
-                size={40}
+              <Feather
+                name={module.icon}
+                size={28}
                 color={`rgb(${get("--color-secondary")})`}
               />
               <View className="flex-1">
