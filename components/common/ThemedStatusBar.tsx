@@ -1,4 +1,4 @@
-import { useTheme } from "@lib/hooks/useTheme";
+import { useTheme } from "@lib/hooks/theme";
 import { StatusBar } from "expo-status-bar";
 import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,7 +12,7 @@ export default function ThemedStatusBar() {
 
   return (
     <>
-      {/* Simulated background behind translucent status bar */}
+      {/* Native only: simulate background under translucent status bar */}
       {Platform.OS !== "web" && (
         <View
           style={{
@@ -22,16 +22,12 @@ export default function ThemedStatusBar() {
             top: 0,
             left: 0,
             right: 0,
-            zIndex: -1,
+            zIndex: -1, // behind content
           }}
         />
       )}
 
-      <StatusBar
-        style={barStyle}
-        translucent
-        // backgroundColor="transparent" ← optional; can be removed
-      />
+      <StatusBar style={barStyle} translucent />
     </>
   );
 }

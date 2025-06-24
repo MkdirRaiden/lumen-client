@@ -1,5 +1,5 @@
 import { OnboardingLayout } from "@components/layouts/OnboardingLayout";
-import { useTheme } from "@lib/hooks/useTheme";
+import { useTheme } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 

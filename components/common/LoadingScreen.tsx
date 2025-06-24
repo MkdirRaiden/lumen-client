@@ -11,8 +11,10 @@ export default function LoadingScreen() {
   const translateX = useRef(new Animated.Value(-100)).current;
 
   useEffect(() => {
+    // Get persisted or system theme (fallback = light)
     getInitialTheme("light").then(setTheme);
 
+    // Start the loading animation
     Animated.loop(
       Animated.timing(translateX, {
         toValue: 100,
@@ -22,7 +24,9 @@ export default function LoadingScreen() {
     ).start();
   }, []);
 
+  // Select theme tokens
   const themeColors = theme === "dark" ? dark : light;
+
   const cubeSource =
     theme === "dark"
       ? require("@assets/animations/lumen-cube-dark.json")
@@ -37,7 +41,7 @@ export default function LoadingScreen() {
       className="flex-1 justify-center items-center"
       style={{ backgroundColor }}
     >
-      {/* 🔆 Lottie cube */}
+      {/* The Lumen cube animation */}
       <LottieView
         source={cubeSource}
         autoPlay
@@ -45,10 +49,10 @@ export default function LoadingScreen() {
         style={{ width: 120, height: 120 }}
       />
 
-      {/* 🚧 Animated loading bar */}
+      {/* The shimmer loading bar */}
       <View
         className="w-32 h-1.5 mt-6 rounded-full overflow-hidden"
-        style={{ backgroundColor: `${mutedColor}33` }}
+        style={{ backgroundColor: `${mutedColor}33` }} // subtle bar background
       >
         <Animated.View
           className="absolute w-1/2 h-full rounded-full"

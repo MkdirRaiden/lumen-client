@@ -8,19 +8,19 @@ import {
   ViewStyle,
 } from "react-native";
 
-type ScreenWrapperProps = {
+type PageLayoutProps = {
   children: ReactNode;
   scroll?: boolean;
   padded?: boolean;
   centered?: boolean;
 };
 
-export default function ScreenWrapper({
+export default function PageLayout({
   children,
   scroll = false,
   padded = true,
   centered = false,
-}: ScreenWrapperProps) {
+}: PageLayoutProps) {
   const Container = scroll ? ScrollView : View;
 
   const containerClassName = `flex-1 bg-screen ${padded ? "px-4" : ""}`;
@@ -41,17 +41,20 @@ export default function ScreenWrapper({
         }
       : undefined;
 
+  const containerProps = scroll
+    ? {
+        contentContainerStyle,
+        keyboardShouldPersistTaps: "handled" as const,
+      }
+    : {};
+
   return (
     <SafeAreaView className="flex-1">
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <Container
-          className={containerClassName}
-          contentContainerStyle={contentContainerStyle}
-          keyboardShouldPersistTaps="handled"
-        >
+        <Container className={containerClassName} {...containerProps}>
           {children}
         </Container>
       </KeyboardAvoidingView>

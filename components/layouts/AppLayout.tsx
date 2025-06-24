@@ -1,6 +1,6 @@
 import LoadingScreen from "@components/common/LoadingScreen";
 import ThemedStatusBar from "@components/common/ThemedStatusBar";
-import { useTheme, useThemeReady } from "@lib/hooks/useTheme";
+import { useTheme, useThemeReady } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import {
   Slot,

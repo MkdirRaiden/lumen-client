@@ -1,45 +1,63 @@
 import { Header } from "@components/common/Header";
 import { TabIcon } from "@components/navigation/TabIcon";
-import { useThemeColors } from "@lib/hooks/useTheme";
+import { useThemeColors } from "@lib/hooks/theme";
 import { Tabs } from "expo-router";
+import { useMemo } from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+const iconMap: Record<
+  string,
+  keyof typeof import("@expo/vector-icons").Feather.glyphMap
+> = {
+  home: "home",
+  explore: "compass",
+  learn: "book-open",
+  settings: "settings",
+};
 
 export default function TabsLayout() {
   const { get } = useThemeColors();
   const insets = useSafeAreaInsets();
 
-  const tabBarBackground = `rgb(${get("--color-bg")})`;
-  const tabBarShadow = `rgb(${get("--shadow-color")})`;
-  const activeColor = `rgb(${get("--color-primary")})`;
-  const inactiveColor = `rgb(${get("--color-text")})`;
-  const activeBg = `rgba(${get("--color-primary")}, 0.1)`;
+  const { tabBarBackground, tabBarShadow, activeColor, inactiveColor } =
+    useMemo(
+      () => ({
+        tabBarBackground: `rgb(${get("--color-bg")})`,
+        tabBarShadow: `rgb(${get("--shadow-color")})`,
+        activeColor: `rgb(${get("--color-primary")})`,
+        inactiveColor: `rgb(${get("--color-text")})`,
+      }),
+      [get]
+    );
 
   return (
     <View className="flex-1">
+      {/* App Header with safe area */}
       <View style={{ paddingTop: insets.top }}>
         <Header />
       </View>
 
+      {/* Bottom Tabs */}
       <Tabs
         screenOptions={({ route }) => {
-          const iconMap = {
-            home: "home",
-            explore: "compass",
-            learn: "book-open",
-            settings: "settings",
-          } as const;
+          const iconName = iconMap[route.name] ?? "circle"; // fallback for safety
 
           return {
             headerShown: false,
             tabBarActiveTintColor: activeColor,
             tabBarInactiveTintColor: inactiveColor,
+            tabBarLabelStyle: {
+              fontSize: 10,
+              marginBottom: 4,
+            },
             tabBarStyle: {
               backgroundColor: tabBarBackground,
-              paddingBottom: insets.bottom || 8,
               paddingTop: 8,
+              paddingBottom: insets.bottom || 8,
               height: 64 + (insets.bottom || 0),
               borderTopWidth: 0,
+              borderTopColor: tabBarShadow,
               shadowColor: tabBarShadow,
               shadowOffset: { width: 0, height: -2 },
               shadowOpacity: 0.1,
@@ -49,11 +67,10 @@ export default function TabsLayout() {
             },
             tabBarIcon: ({ focused, color, size }) => (
               <TabIcon
-                name={iconMap[route.name as keyof typeof iconMap]}
+                name={iconName}
                 focused={focused}
                 size={size}
                 color={color}
-                backgroundColor={activeBg}
               />
             ),
           };

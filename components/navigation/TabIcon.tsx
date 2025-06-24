@@ -7,16 +7,9 @@ type TabIconProps = {
   focused: boolean;
   size: number;
   color: string;
-  backgroundColor: string;
 };
 
-export const TabIcon = ({
-  name,
-  focused,
-  size,
-  color,
-  backgroundColor,
-}: TabIconProps) => {
+export const TabIcon = ({ name, focused, size, color }: TabIconProps) => {
   const scale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -28,20 +21,21 @@ export const TabIcon = ({
     }).start();
   }, [focused]);
 
+  const iconSize = focused ? size - 1 : size - 2;
+
   return (
-    <View className="w-20 h-20 items-center justify-center">
+    <View className="w-16 h-16 items-center justify-center">
       <Animated.View
         style={{
           transform: [{ scale }],
-          width: 38,
-          height: 38,
-          borderRadius: 19,
-          backgroundColor: focused ? backgroundColor : "transparent",
+          width: 44,
+          height: 44,
+          borderRadius: 12,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Feather name={name} size={size} color={color} />
+        <Feather name={name} size={iconSize} color={color} />
       </Animated.View>
     </View>
   );

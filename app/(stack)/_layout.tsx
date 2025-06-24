@@ -1,14 +1,18 @@
-// app/(stack)/_layout.tsx
-
-import { useThemeColors } from "@lib/hooks/useTheme";
+import { useThemeColors } from "@lib/hooks/theme";
 import { getRouteName } from "@utils/routeNames";
 import { Stack } from "expo-router";
+import { useMemo } from "react";
 
 export default function StackLayout() {
   const { get } = useThemeColors();
 
-  const background = `rgb(${get("--color-bg")})`;
-  const foreground = `rgb(${get("--color-text")})`;
+  const { background, foreground } = useMemo(
+    () => ({
+      background: `rgb(${get("--color-bg")})`,
+      foreground: `rgb(${get("--color-text")})`,
+    }),
+    [get]
+  );
 
   return (
     <Stack

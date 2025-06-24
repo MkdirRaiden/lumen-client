@@ -1,4 +1,4 @@
-import { useTheme } from "@lib/hooks/useTheme";
+import { useTheme } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";

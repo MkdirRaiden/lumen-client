@@ -1,5 +1,5 @@
 import { OnboardingLayout } from "@components/layouts/OnboardingLayout";
-import { useTheme } from "@lib/hooks/useTheme";
+import { useTheme } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 
@@ -9,8 +9,8 @@ export default function OnboardingScreen2() {
 
   const animation =
     theme === "dark"
-      ? require("@assets/animations/onboarding-religion-dark.json")
-      : require("@assets/animations/onboarding-religion-light.json");
+      ? require("@assets/animations/onboarding/onboarding-religion-dark.json")
+      : require("@assets/animations/onboarding/onboarding-religion-light.json");
 
   return (
     <OnboardingLayout

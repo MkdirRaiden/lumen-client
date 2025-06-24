@@ -1,11 +1,11 @@
 import { Feather } from "@expo/vector-icons";
-import { useTheme, useThemeColors } from "@lib/hooks/useTheme";
+import { useTheme, useThemeColors } from "@lib/hooks/theme";
 import * as Haptics from "expo-haptics";
 import { Pressable } from "react-native";
 import Animated, { FadeIn, FadeOut, ZoomIn } from "react-native-reanimated";
 
 export const ThemeToggle = () => {
-  const { theme, toggleTheme, themeVersion } = useTheme(); // include version
+  const { theme, toggleTheme, themeVersion } = useTheme();
   const { get } = useThemeColors();
   const isDark = theme === "dark";
 
@@ -22,7 +22,7 @@ export const ThemeToggle = () => {
       className="p-2 rounded-full bg-muted/10"
     >
       <Animated.View
-        key={themeVersion}
+        key={themeVersion} // ensures reanimation on theme switch
         entering={FadeIn.springify()}
         exiting={FadeOut}
         layout={ZoomIn}
@@ -30,7 +30,7 @@ export const ThemeToggle = () => {
         <Feather
           name={isDark ? "sun" : "moon"}
           size={22}
-          color={`rgb(${get("--color-text")})`}
+          color={get("--color-text")}
         />
       </Animated.View>
     </Pressable>

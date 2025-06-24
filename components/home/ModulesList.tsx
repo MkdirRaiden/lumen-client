@@ -1,7 +1,8 @@
 import { Feather } from "@expo/vector-icons";
-import { useTheme, useThemeColors } from "@lib/hooks/useTheme";
+import { useTheme, useThemeColors } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
 import { Pressable, Text, View } from "react-native";
 
 type Module = {
@@ -46,18 +47,19 @@ export const ModulesList = () => {
   const { theme } = useTheme();
 
   return (
-    <View className="mt-8">
+    <View className="mt-4">
       {modules.map((module, idx) => {
         const isComingSoon = module.status === "coming-soon";
 
-        const pressableClasses = [
-          "p-4 mb-3 rounded-xl",
-          "bg-bg min-h-24",
-          isComingSoon && "opacity-50 bg-screen",
-          theme === "light" ? "shadow-sm" : "border border-muted",
-        ]
-          .filter(Boolean)
-          .join(" ");
+        const pressableClasses = useMemo(() => {
+          return [
+            "p-4 mb-3 rounded-xl bg-bg min-h-24",
+            isComingSoon && "opacity-50 bg-screen",
+            theme === "light" ? "shadow-sm" : "border border-muted",
+          ]
+            .filter(Boolean)
+            .join(" ");
+        }, [isComingSoon, theme]);
 
         const shadowStyle =
           theme === "light"
@@ -77,6 +79,7 @@ export const ModulesList = () => {
             disabled={isComingSoon}
             accessibilityRole="button"
             accessibilityLabel={module.title}
+            aria-disabled={isComingSoon}
           >
             <View className="flex-row items-center gap-4">
               <Feather

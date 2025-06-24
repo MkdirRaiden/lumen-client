@@ -1,4 +1,4 @@
-import { useThemeColors } from "@lib/hooks/useTheme";
+import { useThemeColors } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
@@ -100,7 +100,11 @@ export const OnboardingLayout = ({
 
       {/* Text */}
       <View className="px-6">
-        <Text className="text-2xl font-bold text-center text-text mb-3">
+        <Text
+          className="text-2xl font-bold text-center text-text mb-3"
+          accessibilityRole="header"
+          accessibilityLabel={`Step ${step}: ${title}`}
+        >
           {title}
         </Text>
         <Text className="text-base text-center text-text/75 mb-6 w-4/5 mx-auto">
