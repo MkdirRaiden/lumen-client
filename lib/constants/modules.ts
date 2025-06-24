@@ -1,0 +1,80 @@
+import { routes } from "@lib/routes";
+import { Module } from "@ts-types/module";
+
+export const modulesList: Module[] = [
+  {
+    title: "Truth Across Religions",
+    description: "Explore essence and contrasts of world religions.",
+    icon: "book-open",
+    route: routes.stack.truth,
+    status: "active",
+    tags: ["religion", "comparison", "wisdom"],
+    featured: true,
+  },
+  {
+    title: "Explore History",
+    description: "Understand history from critical and verified sources.",
+    icon: "clock",
+    status: "coming-soon",
+    tags: ["history", "civilizations", "context"],
+    featured: true,
+  },
+  {
+    title: "Science & Religion",
+    description: "Discover where science and faith align or conflict.",
+    icon: "aperture",
+    status: "coming-soon",
+    tags: ["science", "faith", "truth"],
+    featured: true,
+  },
+  {
+    title: "Fight Misinformation",
+    description: "Verify claims with ethical tools.",
+    icon: "shield",
+    status: "coming-soon",
+    tags: ["mythbusting", "logic", "verification"],
+    featured: true,
+  },
+  {
+    title: "Philosophy & Logic",
+    description: "Learn how thinkers shaped rational inquiry.",
+    icon: "activity",
+    status: "coming-soon",
+    tags: ["philosophy", "reason", "critical thinking"],
+  },
+  {
+    title: "Sacred Text Explorer",
+    description: "Dive into verses and meaning across holy books.",
+    icon: "book",
+    status: "coming-soon",
+    tags: ["scripture", "meaning", "multi-faith"],
+  },
+  {
+    title: "Timeline of Truth",
+    description: "A chronological journey through religious evolution.",
+    icon: "calendar",
+    status: "coming-soon",
+    tags: ["timeline", "history", "religion"],
+  },
+  {
+    title: "Prophets & Thinkers",
+    description: "Explore lives and teachings of great figures.",
+    icon: "users",
+    status: "coming-soon",
+    tags: ["wisdom", "biography", "leaders"],
+  },
+  {
+    title: "AI Misinformation Debunker",
+    description: "Let AI help verify or debunk viral claims.",
+    icon: "zap",
+    status: "coming-soon",
+    tags: ["AI", "truth", "debunking"],
+  },
+  {
+    title: "Modern Ethics vs Ancient Texts",
+    description: "Understand controversial topics with context.",
+    icon: "layers",
+    status: "coming-soon",
+    tags: ["ethics", "context", "modernity"],
+  },
+];

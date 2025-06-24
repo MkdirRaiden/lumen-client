@@ -1,3 +1,4 @@
+import { scriptureQuotes } from "@lib/constants/quotes";
 import { useThemeColors } from "@lib/hooks/theme";
 import type { SemanticColor } from "@ts-types/theme";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,33 +10,6 @@ import {
   View,
 } from "react-native";
 import Animated, { FadeIn, FadeOut, ZoomIn } from "react-native-reanimated";
-
-const quotes = [
-  {
-    text: "The truth will set you free.",
-    source: "John 8:32",
-  },
-  {
-    text: "Knowledge is better than worship.",
-    source: "Prophet Muhammad (PBUH)",
-  },
-  {
-    text: "From ignorance, lead me to truth.",
-    source: "Upanishads",
-  },
-  {
-    text: "A fool thinks himself to be wise, but a wise man knows himself to be a fool.",
-    source: "Buddhist Teaching",
-  },
-  {
-    text: "The ink of the scholar is more sacred than the blood of the martyr.",
-    source: "Hadith",
-  },
-  {
-    text: "Wisdom is supreme—so get wisdom. Though it cost all you have, get understanding.",
-    source: "Proverbs 4:7",
-  },
-];
 
 const DURATION = 7000;
 
@@ -70,7 +44,7 @@ export const ScriptureCarousel = () => {
   useEffect(() => {
     triggerAnimation();
     const timeout = setTimeout(() => {
-      setActiveIndex((prev) => (prev + 1) % quotes.length);
+      setActiveIndex((prev) => (prev + 1) % scriptureQuotes.length);
     }, DURATION);
     return () => clearTimeout(timeout);
   }, [activeIndex]);
@@ -86,27 +60,53 @@ export const ScriptureCarousel = () => {
         Math.abs(gestureState.dx) > 10,
       onPanResponderRelease: (_, gestureState) => {
         if (gestureState.dx > 50) {
-          setActiveIndex((prev) => (prev - 1 + quotes.length) % quotes.length);
+          setActiveIndex(
+            (prev) =>
+              (prev - 1 + scriptureQuotes.length) % scriptureQuotes.length
+          );
         } else if (gestureState.dx < -50) {
-          setActiveIndex((prev) => (prev + 1) % quotes.length);
+          setActiveIndex((prev) => (prev + 1) % scriptureQuotes.length);
         }
       },
     })
   ).current;
 
   return (
-    <View className="px-6 py-8 items-center justify-center">
+    <View className="px-6 py-3 items-center justify-center">
+      {/* Animated quote with fade+scale */}
+      <Animated.View
+        key={activeIndex}
+        entering={FadeIn.springify()}
+        exiting={FadeOut}
+        layout={ZoomIn}
+        {...panResponder.panHandlers}
+        style={{ minHeight: 130, justifyContent: "center" }}
+      >
+        <Text
+          className="text-center text-[18px] font-medium px-4 leading-7"
+          style={{ color: text }}
+        >
+          “{scriptureQuotes[activeIndex].text}”
+        </Text>
+        <Text
+          className="text-center text-sm mt-2 opacity-60"
+          style={{ color: text }}
+        >
+          — {scriptureQuotes[activeIndex].source}
+        </Text>
+      </Animated.View>
+
       {/* Indicators with progress bar */}
-      <View className="flex-row mb-4">
-        {quotes.map((_, i) => {
+      <View className="flex-row mb-3">
+        {scriptureQuotes.map((_, i) => {
           const isActive = i === activeIndex;
           return (
             <Pressable
               key={i}
               onPress={() => setActiveIndex(i)}
-              className={`h-[10px] rounded-full mr-2 ${
+              className={`h-[10px] rounded-full mr-2 ease-in ${
                 isActive
-                  ? "w-12 bg-secondary/30 overflow-hidden"
+                  ? "w-12 bg-secondary/40 overflow-hidden"
                   : "w-3 opacity-40"
               }`}
               style={!isActive ? { backgroundColor: muted } : undefined}
@@ -125,28 +125,6 @@ export const ScriptureCarousel = () => {
           );
         })}
       </View>
-      {/* Animated quote with fade+scale */}
-      <Animated.View
-        key={activeIndex}
-        entering={FadeIn.springify()}
-        exiting={FadeOut}
-        layout={ZoomIn}
-        {...panResponder.panHandlers}
-        style={{ minHeight: 105 }}
-      >
-        <Text
-          className="text-center text-[18px] font-medium px-4 leading-7"
-          style={{ color: text }}
-        >
-          “{quotes[activeIndex].text}”
-        </Text>
-        <Text
-          className="text-center text-sm mt-3 opacity-60"
-          style={{ color: text }}
-        >
-          — {quotes[activeIndex].source}
-        </Text>
-      </Animated.View>
     </View>
   );
 };

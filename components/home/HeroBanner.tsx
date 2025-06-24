@@ -19,7 +19,7 @@ export const HeroBanner = () => {
 
   return (
     <View
-      className="my-4 rounded-2xl relative overflow-hidden"
+      className="mt-2 rounded-2xl relative overflow-hidden"
       style={{ height: 220 }}
     >
       {/* Centered video background */}
