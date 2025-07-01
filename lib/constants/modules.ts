@@ -1,5 +1,5 @@
 import { routes } from "@lib/routes";
-import { Module } from "@ts-types/module";
+import { Module } from "@lib/types";
 
 export const modulesList: Module[] = [
   {

@@ -7,6 +7,7 @@ export const routes = {
   },
   stack: {
     truth: "/(stack)/truth" as const,
+    askLumen: "/(stack)/ask-lumen" as const,
     onboarding: {
       screen1: "/(stack)/onboarding" as const,
       screen2: "/(stack)/onboarding/screen2" as const,
@@ -15,3 +16,6 @@ export const routes = {
     },
   },
 };
+
+export type OnboardingRouteStrings =
+  (typeof routes.stack.onboarding)[keyof typeof routes.stack.onboarding];

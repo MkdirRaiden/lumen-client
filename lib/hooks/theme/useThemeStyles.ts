@@ -1,5 +1,5 @@
 import { ThemeContext } from "@lib/context/ThemeContext";
-import type { SemanticToken, TailwindPrefix } from "@ts-types/theme";
+import type { SemanticToken, TailwindPrefix } from "@lib/types/theme";
 import { useContext } from "react";
 
 export const useThemeStyles = () => {

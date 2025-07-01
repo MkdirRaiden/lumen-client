@@ -1,4 +1,4 @@
-import { SemanticColor } from "@ts-types/theme";
+import { SemanticColor } from "@lib/types/theme";
 
 const light: Record<SemanticColor, string> = {
   "--color-bg": "253 253 253",

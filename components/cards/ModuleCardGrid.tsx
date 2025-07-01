@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { useTheme, useThemeColors } from "@lib/hooks/theme";
-import { Module } from "@ts-types/module";
+import { Module } from "@lib/types";
 import { Pressable, Text, View } from "react-native";
 
 type Props = {

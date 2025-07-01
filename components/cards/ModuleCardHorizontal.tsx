@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { useTheme, useThemeColors } from "@lib/hooks/theme";
-import type { Module } from "@ts-types/module";
+import type { Module } from "@lib/types";
 import { Pressable, Text, View } from "react-native";
 
 type Props = {
@@ -31,11 +31,13 @@ export const ModuleCardHorizontal = ({ module, onPress, disabled }: Props) => {
       }
     >
       <View className="flex-row items-center gap-4">
-        <Feather
-          name={module.icon as any}
-          size={28}
-          color={`rgb(${get("--color-secondary")})`}
-        />
+        <View className="h-12 w-12 items-center justify-center rounded-full bg-secondary/10">
+          <Feather
+            name={module.icon as any}
+            size={28}
+            color={`rgb(${get("--color-secondary")})`}
+          />
+        </View>
         <View className="flex-1">
           <Text className="text-lg font-medium text-text">{module.title}</Text>
           <Text className="text-sm text-muted/90">{module.description}</Text>

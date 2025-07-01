@@ -1,43 +1,50 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useRef } from "react";
-import { Animated, Easing, StyleSheet, View, ViewStyle } from "react-native";
+import React, { useMemo } from "react";
+import { ColorValue, StyleSheet } from "react-native";
 
+import { AnimatedView } from "@components/common/AnimatedView";
+import { useAnimations } from "@lib/hooks/animation";
 import { useThemeColors } from "@lib/hooks/theme";
 
 export default function GradientLoaderBar() {
   const { get } = useThemeColors();
-  const translateX = useRef(new Animated.Value(-150)).current;
 
-  useEffect(() => {
-    const animation = Animated.loop(
-      Animated.timing(translateX, {
-        toValue: 300, // Adjust if container width changes
-        duration: 1500,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      })
-    );
+  const colors = useMemo<readonly [ColorValue, ColorValue]>(
+    () => [`rgb(${get("--gradient-start")})`, `rgb(${get("--gradient-end")})`],
+    [get]
+  );
 
-    animation.start();
-    return () => animation.stop(); // Cleanup
-  }, [translateX]);
+  const { translateX } = useAnimations({
+    loopTranslateX: {
+      from: -150,
+      to: 300,
+      duration: 1500,
+    },
+  });
 
-  const animatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
-    ...StyleSheet.absoluteFillObject,
-    width: 150,
-    transform: [{ translateX }],
-  };
+  // Early return or fallback if translateX is undefined (optional)
+  if (!translateX) return null;
 
   return (
-    <View className="mt-6 h-2 w-full overflow-hidden rounded-full bg-muted">
-      <Animated.View style={animatedStyle}>
+    <AnimatedView
+      className="mt-6 h-2 w-full overflow-hidden rounded-full bg-muted"
+      style={{ overflow: "hidden" }}
+    >
+      <AnimatedView
+        translateX
+        style={{
+          ...StyleSheet.absoluteFillObject,
+          width: 150,
+          transform: [{ translateX: translateX ?? 0 }],
+        }}
+      >
         <LinearGradient
-          colors={[get("--gradient-start"), get("--gradient-end")]}
+          colors={colors}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={StyleSheet.absoluteFill}
         />
-      </Animated.View>
-    </View>
+      </AnimatedView>
+    </AnimatedView>
   );
 }

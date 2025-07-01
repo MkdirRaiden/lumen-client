@@ -9,8 +9,8 @@ export default function OnboardingScreen3() {
 
   const animation =
     theme === "dark"
-      ? require("@assets/animations/lumen-cube-dark.json")
-      : require("@assets/animations/lumen-cube-light.json");
+      ? require("@assets/animations/onboarding/lumen-cube-dark.json")
+      : require("@assets/animations/onboarding/lumen-cube-light.json");
 
   return (
     <OnboardingLayout

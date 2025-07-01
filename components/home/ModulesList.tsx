@@ -34,7 +34,7 @@ export const ModulesList = ({ showAll = false }: Props) => {
   return (
     <View className="mt-4">
       {showAll && (
-        <View className="flex-row flex-wrap gap-2 px-1 mb-4">
+        <View className="flex-row flex-wrap gap-2 px-1 mb-6">
           <Pressable
             onPress={() => setActiveTag(null)}
             className={`px-4 py-1 rounded-full border ${
@@ -97,7 +97,7 @@ export const ModulesList = ({ showAll = false }: Props) => {
       {!showAll && (
         <Pressable
           onPress={() => router.push(routes.tabs.explore)}
-          className="mt-4 self-center bg-primary/10 px-5 py-2 rounded-full"
+          className="mt-2 self-center bg-primary/10 px-5 py-2 rounded-full"
         >
           <Text className="text-primary font-medium text-sm">
             See All Modules

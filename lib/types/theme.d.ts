@@ -1,5 +1,3 @@
-// types/theme.ts
-
 // For theme color maps (light.ts, dark.ts)
 export type SemanticColor =
   | "--color-bg"

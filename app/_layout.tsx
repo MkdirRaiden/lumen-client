@@ -1,13 +1,13 @@
+import "../splash-init"; // FIRST!
+
 import AppLayout from "@components/layouts/AppLayout";
 import { ThemeProvider } from "@lib/context/ThemeContext";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
+import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
 import "../global.css";
 
-// Prevent splash screen from auto-hiding
-SplashScreen.preventAutoHideAsync();
+LogBox.ignoreAllLogs(true);
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({

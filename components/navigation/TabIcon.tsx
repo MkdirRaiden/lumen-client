@@ -1,42 +1,42 @@
 import { Feather } from "@expo/vector-icons";
-import React, { useEffect, useRef } from "react";
-import { Animated, View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 
 type TabIconProps = {
   name: keyof typeof Feather.glyphMap;
   focused: boolean;
   size: number;
   color: string;
+  label: string;
 };
 
-export const TabIcon = ({ name, focused, size, color }: TabIconProps) => {
-  const scale = useRef(new Animated.Value(1)).current;
+export const TabIcon = ({
+  name,
+  focused,
+  size,
+  color,
+  label,
+}: TabIconProps) => {
+  const containerClass = focused
+    ? "items-center justify-center bg-primary/10 rounded-full"
+    : "items-center justify-center";
 
-  useEffect(() => {
-    Animated.spring(scale, {
-      toValue: focused ? 1.1 : 1,
-      useNativeDriver: true,
-      speed: 12,
-      bounciness: 8,
-    }).start();
-  }, [focused]);
-
-  const iconSize = focused ? size - 1 : size - 2;
+  const labelClass = focused
+    ? "text-[11px] font-medium text-primary mt-1 text-center"
+    : "text-[11px] text-muted mt-1 text-center";
 
   return (
-    <View className="w-16 h-16 items-center justify-center">
-      <Animated.View
-        style={{
-          transform: [{ scale }],
-          width: 44,
-          height: 44,
-          borderRadius: 12,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Feather name={name} size={iconSize} color={color} />
-      </Animated.View>
+    <View
+      className={`flex-col p-2 ${containerClass}`}
+      style={{
+        minWidth: 64,
+        paddingTop: 8,
+        paddingBottom: 4,
+        paddingHorizontal: 12,
+      }}
+    >
+      <Feather name={name} size={size} color={color} />
+      <Text className={labelClass}>{label}</Text>
     </View>
   );
 };

@@ -29,7 +29,7 @@ export const ThemeToggle = () => {
       >
         <Feather
           name={isDark ? "sun" : "moon"}
-          size={22}
+          size={20}
           color={get("--color-text")}
         />
       </Animated.View>

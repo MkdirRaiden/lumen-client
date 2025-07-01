@@ -5,7 +5,7 @@ import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export const HeroBanner = () => {
   const router = useRouter();
@@ -74,14 +74,14 @@ export const HeroBanner = () => {
           meaning and sacred ideas.
         </Text>
 
-        <View className="rounded-xl px-6 py-4 w-3/4 mx-auto items-center justify-center bg-bg/90">
-          <Text
-            className="text-base font-semibold text-primary"
-            onPress={() => router.push(routes.stack.truth as any)}
-          >
+        <Pressable
+          onPress={() => router.push(routes.tabs.explore as any)}
+          className="rounded-xl px-6 py-4 w-3/4 mx-auto items-center justify-center bg-bg/90"
+        >
+          <Text className="text-base font-semibold text-primary">
             Explore Now
           </Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

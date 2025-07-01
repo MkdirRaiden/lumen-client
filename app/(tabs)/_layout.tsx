@@ -1,7 +1,7 @@
 import { Header } from "@components/common/Header";
 import { TabIcon } from "@components/navigation/TabIcon";
 import { useThemeColors } from "@lib/hooks/theme";
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import { useMemo } from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,6 +20,18 @@ export default function TabsLayout() {
   const { get } = useThemeColors();
   const insets = useSafeAreaInsets();
 
+  const pathname = usePathname();
+  const currentRoute = pathname?.split("/")[1] || "home";
+
+  const pageTitles: Record<string, string> = {
+    home: "Home",
+    explore: "Explore",
+    learn: "Learn",
+    settings: "Settings",
+  };
+
+  const headerTitle = pageTitles[currentRoute ?? ""] ?? "";
+
   const { tabBarBackground, tabBarShadow, activeColor, inactiveColor } =
     useMemo(
       () => ({
@@ -35,22 +47,18 @@ export default function TabsLayout() {
     <View className="flex-1">
       {/* App Header with safe area */}
       <View style={{ paddingTop: insets.top }}>
-        <Header />
+        <Header title={headerTitle} />
       </View>
 
-      {/* Bottom Tabs */}
       <Tabs
         screenOptions={({ route }) => {
-          const iconName = iconMap[route.name] ?? "circle"; // fallback for safety
+          const iconName = iconMap[route.name] ?? "circle";
 
           return {
             headerShown: false,
+            tabBarShowLabel: false, // we render label ourselves
             tabBarActiveTintColor: activeColor,
             tabBarInactiveTintColor: inactiveColor,
-            tabBarLabelStyle: {
-              fontSize: 10,
-              marginBottom: 4,
-            },
             tabBarStyle: {
               backgroundColor: tabBarBackground,
               paddingTop: 8,
@@ -71,6 +79,7 @@ export default function TabsLayout() {
                 focused={focused}
                 size={size}
                 color={color}
+                label={pageTitles[route.name]}
               />
             ),
           };

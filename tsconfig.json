@@ -6,9 +6,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
-      "@utils/*": ["utils/*"],
-      "@assets/*": ["assets/*"],
-      "@ts-types/*": ["types/*"] //to avoid type conflict
+      "@utils/*": ["lib/utils/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": [

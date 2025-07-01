@@ -1,91 +1,60 @@
-import LoadingScreen from "@components/common/LoadingScreen";
-import ThemedStatusBar from "@components/common/ThemedStatusBar";
-import { useTheme, useThemeReady } from "@lib/hooks/theme";
-import { routes } from "@lib/routes";
-import {
-  Slot,
-  usePathname,
-  useRootNavigationState,
-  useRouter,
-} from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import SplashScreen from "@components/common/SplashScreen";
+import { useThemeReady, useThemeVersion } from "@lib/hooks/theme";
+import { Slot, useRootNavigationState, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Animated, View } from "react-native";
+import { View } from "react-native";
 
 export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
+  const themeVersion = useThemeVersion();
   const isThemeReady = useThemeReady();
-  const { themeVersion } = useTheme();
-  const pathname = usePathname();
+  const navigationReady = !!useRootNavigationState()?.key;
+
   const router = useRouter();
-  const navigationReady = useRootNavigationState()?.key != null;
-
-  const [minDelayPassed, setMinDelayPassed] = useState(false);
-  const [splashHidden, setSplashHidden] = useState(false);
-  const [showApp, setShowApp] = useState(false);
-
-  const fadeAnim = useRef(new Animated.Value(1)).current;
   const hasRedirected = useRef(false);
 
-  const isAppReady = fontsLoaded && isThemeReady && navigationReady;
-  const canStartFade = isAppReady && minDelayPassed;
+  const [lottieDone, setLottieDone] = useState(false);
+  const [lottieStart, setLottieStart] = useState<number | null>(null);
+  const [splashDone, setSplashDone] = useState(false);
+  const [playLottie, setPlayLottie] = useState(true); // 🔥 Start Lottie immediately
 
-  // Wait minimum delay
+  // ✅ When Lottie finishes, check if 2s passed, and then show app if also ready
+  const onLottieDone = async () => {
+    setLottieDone(true);
+    const elapsed = lottieStart ? Date.now() - lottieStart : 0;
+    const wait = Math.max(0, 2000 - elapsed);
+    if (wait > 0) {
+      console.log(`⏳ Waiting ${wait}ms to complete 2s`);
+      await new Promise((r) => setTimeout(r, wait));
+    }
+    console.log("✅ Lottie + 2s complete");
+  };
+
+  // ✅ After everything is ready and lottie done, continue
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setMinDelayPassed(true);
-    }, 2000);
-    return () => clearTimeout(timeout);
+    const ready = fontsLoaded && isThemeReady && navigationReady;
+    if (!ready || !lottieDone) return;
+
+    console.log("🧠 All ready — show app");
+    setSplashDone(true);
+  }, [fontsLoaded, isThemeReady, navigationReady, lottieDone]);
+
+  useEffect(() => {
+    if (!lottieStart) setLottieStart(Date.now());
   }, []);
 
-  // Hide native splash screen
   useEffect(() => {
-    if (isAppReady && !splashHidden) {
-      SplashScreen.hideAsync().then(() => setSplashHidden(true));
-    }
-  }, [isAppReady, splashHidden]);
+    if (!splashDone || hasRedirected.current) return;
+    hasRedirected.current = true;
+    console.log("🚀 Redirecting to onboarding...");
+    router.replace("/onboarding");
+  }, [splashDone]);
 
-  // Redirect to onboarding ONCE for testing
-  useEffect(() => {
-    if (!isAppReady || hasRedirected.current) return;
-
-    const isOnboardingPath = pathname.startsWith("/onboarding");
-
-    if (!isOnboardingPath) {
-      hasRedirected.current = true;
-
-      // Delay slightly to ensure navigation context settles
-      setTimeout(() => {
-        router.replace(routes.stack.onboarding.screen1 as any);
-      }, 0);
-    }
-  }, [isAppReady]);
-
-  // Animate out loading
-  useEffect(() => {
-    if (canStartFade) {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 600,
-        useNativeDriver: true,
-      }).start(() => {
-        setShowApp(true);
-      });
-    }
-  }, [canStartFade]);
-
-  // Still loading
-  if (!showApp) {
-    return (
-      <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
-        <LoadingScreen />
-      </Animated.View>
-    );
+  if (!splashDone) {
+    return <SplashScreen play={playLottie} onFinish={onLottieDone} />;
   }
 
-  // Final app render with fade transition only
   return (
     <View style={{ flex: 1 }}>
-      <ThemedStatusBar />
       <Slot key={themeVersion} />
     </View>
   );

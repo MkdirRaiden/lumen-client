@@ -1,4 +1,6 @@
-import { ReactNode } from "react";
+import { useScrollToTopOnFocus } from "@lib/hooks/common/useScrollToTopOnFocus";
+import type { PageLayoutProps } from "@lib/types";
+import { RefObject, useRef } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -8,22 +10,21 @@ import {
   ViewStyle,
 } from "react-native";
 
-type PageLayoutProps = {
-  children: ReactNode;
-  scroll?: boolean;
-  padded?: boolean;
-  centered?: boolean;
-};
-
 export default function PageLayout({
   children,
   scroll = false,
   padded = true,
   centered = false,
+  className = "",
 }: PageLayoutProps) {
-  const Container = scroll ? ScrollView : View;
+  const scrollRef = useRef<ScrollView | null>(null) as RefObject<ScrollView>;
 
-  const containerClassName = `flex-1 bg-screen ${padded ? "px-4" : ""}`;
+  if (scroll) {
+    useScrollToTopOnFocus(scrollRef);
+  }
+
+  const containerClassName = `flex-1 bg-screen ${padded ? "px-4" : ""} ${className}`;
+
   const contentContainerStyle: ViewStyle | undefined = scroll
     ? {
         paddingBottom: 24,
@@ -41,23 +42,30 @@ export default function PageLayout({
         }
       : undefined;
 
-  const containerProps = scroll
-    ? {
-        contentContainerStyle,
-        keyboardShouldPersistTaps: "handled" as const,
-      }
-    : {};
-
   return (
-    <SafeAreaView className="flex-1">
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <Container className={containerClassName} {...containerProps}>
-          {children}
-        </Container>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+    <KeyboardAvoidingView
+      className="flex-1"
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0} // tweak if header present
+    >
+      <SafeAreaView className="flex-1">
+        {scroll ? (
+          <ScrollView
+            ref={scrollRef}
+            className={containerClassName}
+            contentContainerStyle={contentContainerStyle}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            {children}
+          </ScrollView>
+        ) : (
+          <View className={containerClassName} style={contentContainerStyle}>
+            {children}
+          </View>
+        )}
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }

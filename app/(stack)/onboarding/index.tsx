@@ -1,9 +1,10 @@
+import { withFadeScaleTransition } from "@components/common/withFadeScaleTransition";
 import { OnboardingLayout } from "@components/layouts/OnboardingLayout";
 import { useTheme } from "@lib/hooks/theme";
 import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
 
-export default function OnboardingScreen1() {
+export default function OnboardingScreen1Inner() {
   const router = useRouter();
   const { theme } = useTheme();
 
@@ -27,3 +28,7 @@ export default function OnboardingScreen1() {
     />
   );
 }
+
+export const OnboardingScreen1 = withFadeScaleTransition(
+  OnboardingScreen1Inner
+);

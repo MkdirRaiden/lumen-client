@@ -1,4 +1,3 @@
-import LoadingScreen from "@components/common/LoadingScreen";
 import { getInitialTheme, saveThemeToStorage } from "@utils/theme/themeStorage";
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import {
@@ -83,7 +82,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
           style: themeStyle,
         };
 
-  if (!isReady) return <LoadingScreen />;
+  if (!isReady) return null;
 
   return (
     <ThemeContext.Provider

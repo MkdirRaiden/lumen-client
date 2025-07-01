@@ -1,5 +1,5 @@
 import { ThemeContext } from "@lib/context/ThemeContext";
-import type { SemanticColor } from "@ts-types/theme";
+import type { SemanticColor } from "@lib/types/theme";
 import { useContext } from "react";
 
 const toValidColor = (rgbString: string): string => {
