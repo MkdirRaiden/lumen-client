@@ -1,8 +1,8 @@
+import { AnimatedView } from "@components/common/AnimatedView";
 import SplashScreen from "@components/common/SplashScreen";
 import { useThemeReady, useThemeVersion } from "@lib/hooks/theme";
 import { Slot, useRootNavigationState, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
 
 export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   const themeVersion = useThemeVersion();
@@ -15,9 +15,8 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   const [lottieDone, setLottieDone] = useState(false);
   const [lottieStart, setLottieStart] = useState<number | null>(null);
   const [splashDone, setSplashDone] = useState(false);
-  const [playLottie, setPlayLottie] = useState(true); // 🔥 Start Lottie immediately
+  const [playLottie, setPlayLottie] = useState(true);
 
-  // ✅ When Lottie finishes, check if 2s passed, and then show app if also ready
   const onLottieDone = async () => {
     setLottieDone(true);
     const elapsed = lottieStart ? Date.now() - lottieStart : 0;
@@ -29,7 +28,10 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
     console.log("✅ Lottie + 2s complete");
   };
 
-  // ✅ After everything is ready and lottie done, continue
+  useEffect(() => {
+    if (!lottieStart) setLottieStart(Date.now());
+  }, []);
+
   useEffect(() => {
     const ready = fontsLoaded && isThemeReady && navigationReady;
     if (!ready || !lottieDone) return;
@@ -37,10 +39,6 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
     console.log("🧠 All ready — show app");
     setSplashDone(true);
   }, [fontsLoaded, isThemeReady, navigationReady, lottieDone]);
-
-  useEffect(() => {
-    if (!lottieStart) setLottieStart(Date.now());
-  }, []);
 
   useEffect(() => {
     if (!splashDone || hasRedirected.current) return;
@@ -54,8 +52,8 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <AnimatedView fade visible={splashDone} duration={500} className="flex-1">
       <Slot key={themeVersion} />
-    </View>
+    </AnimatedView>
   );
 }

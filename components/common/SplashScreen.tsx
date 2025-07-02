@@ -7,11 +7,17 @@ import { StatusBar, View } from "react-native";
 interface SplashScreenProps {
   play: boolean;
   onFinish: () => void;
+  onReady: () => void;
 }
 
-export default function SplashScreen({ play, onFinish }: SplashScreenProps) {
+export default function SplashScreen({
+  play,
+  onFinish,
+  onReady,
+}: SplashScreenProps) {
   const animationRef = useRef<LottieView>(null);
   const [hasFinished, setHasFinished] = useState(false);
+  const [lottieReady, setLottieReady] = useState(false);
 
   const handleFinish = () => {
     if (hasFinished) return;
@@ -21,20 +27,22 @@ export default function SplashScreen({ play, onFinish }: SplashScreenProps) {
   };
 
   const handleLayout = async () => {
+    console.log("📦 Lottie loaded & layout ready");
+    setLottieReady(true);
+    onReady?.(); // 👈 fire back to AppLayout
+
     try {
       await SplashScreenExpo.hideAsync();
       console.log("🖼️ Native splash hidden");
-    } catch {
-      // ignore errors
-    }
+    } catch {}
   };
 
   useEffect(() => {
-    if (play && animationRef.current) {
+    if (lottieReady && play && animationRef.current) {
       console.log("▶️ .play() Lottie");
       animationRef.current.play();
     }
-  }, [play]);
+  }, [play, lottieReady]);
 
   return (
     <View className="flex-1 bg-[#FFF6D1] justify-center items-center">
