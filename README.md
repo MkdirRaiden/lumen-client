@@ -17,7 +17,7 @@ Lumen is a truth-based religious exploration app that empowers users to critical
 ## 🧪 Local Development
 
 ```bash
-git clone https://github.com/yourname/lumen-client
+git clone https://github.com/MkdirRaiden/lumen-client.git
 cd lumen-client
 npm install
 npx expo start
@@ -37,15 +37,15 @@ npm run web
 
 ## 📁 Scripts & CLI Tools
 
-| Script                  | Description                                  |
-|-------------------------|----------------------------------------------|
-| `dev:connect`           | Start dev client for emulator                |
-| `dev:connect:device`    | Connect to physical device via ADB + run     |
-| `dev:emulator`          | Build + install APK on emulator              |
-| `dev:device`            | Build + install APK on real device           |
-| `prebuild`              | Clean + regenerate native folders            |
-| `prebuild:device`       | Prebuild + install to real device            |
-| `prebuild:emulator`     | Prebuild + install to emulator               |
+| Script               | Description                              |
+| -------------------- | ---------------------------------------- |
+| `dev:connect`        | Start dev client for emulator            |
+| `dev:connect:device` | Connect to physical device via ADB + run |
+| `dev:emulator`       | Build + install APK on emulator          |
+| `dev:device`         | Build + install APK on real device       |
+| `prebuild`           | Clean + regenerate native folders        |
+| `prebuild:device`    | Prebuild + install to real device        |
+| `prebuild:emulator`  | Prebuild + install to emulator           |
 
 ---
 
@@ -60,7 +60,7 @@ cp .env.example .env
 You’ll need:
 
 ```env
-LUMEN_DEVICE_IP=192.168.0.105:5555
+LUMEN_DEVICE_IP=<your device>
 ```
 
 ---

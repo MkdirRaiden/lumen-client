@@ -7,10 +7,9 @@ Welcome to the Lumen client codebase! This guide is for contributors and develop
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/yourname/lumen-client
+git https://github.com/MkdirRaiden/lumen-client.git
 cd lumen-client
 npm install
-cp .env.example .env
 ```
 
 Requires:
@@ -47,7 +46,7 @@ npm run dev:connect:device
 Make sure your `.env` has your device IP:
 
 ```env
-LUMEN_DEVICE_IP=192.168.0.105:5555
+LUMEN_DEVICE_IP=<your device IP>
 ```
 
 ### Emulator
@@ -62,13 +61,13 @@ npm run dev:connect
 
 ## 🛠 Full Build + Install Workflows
 
-| Script                  | Description                                  |
-|-------------------------|----------------------------------------------|
-| `dev:device`            | Build + install APK on real device           |
-| `dev:emulator`          | Build + install APK on emulator              |
-| `prebuild`              | Clean + regenerate native folders            |
-| `prebuild:device`       | Prebuild + install to real device            |
-| `prebuild:emulator`     | Prebuild + install to emulator               |
+| Script              | Description                        |
+| ------------------- | ---------------------------------- |
+| `dev:device`        | Build + install APK on real device |
+| `dev:emulator`      | Build + install APK on emulator    |
+| `prebuild`          | Clean + regenerate native folders  |
+| `prebuild:device`   | Prebuild + install to real device  |
+| `prebuild:emulator` | Prebuild + install to emulator     |
 
 ---
 
@@ -77,10 +76,8 @@ npm run dev:connect
 `.env`:
 
 ```env
-LUMEN_DEVICE_IP=192.168.0.105:5555
+LUMEN_DEVICE_IP=<your device IP>
 ```
-
-`.env.example` is provided for reference.
 
 ---
 

@@ -15,7 +15,7 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   const [lottieDone, setLottieDone] = useState(false);
   const [lottieStart, setLottieStart] = useState<number | null>(null);
   const [splashDone, setSplashDone] = useState(false);
-  const [playLottie, setPlayLottie] = useState(true);
+  const [playLottie, setPlayLottie] = useState(false); // 🔄 fixed: initially false
 
   const onLottieDone = async () => {
     setLottieDone(true);
@@ -28,9 +28,13 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
     console.log("✅ Lottie + 2s complete");
   };
 
-  useEffect(() => {
-    if (!lottieStart) setLottieStart(Date.now());
-  }, []);
+  // Start timing when Lottie layout is ready
+  const onLottieReady = () => {
+    if (!lottieStart) {
+      setLottieStart(Date.now());
+      setPlayLottie(true); // 👈 now actively starts Lottie when safe
+    }
+  };
 
   useEffect(() => {
     const ready = fontsLoaded && isThemeReady && navigationReady;
@@ -48,7 +52,13 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   }, [splashDone]);
 
   if (!splashDone) {
-    return <SplashScreen play={playLottie} onFinish={onLottieDone} />;
+    return (
+      <SplashScreen
+        play={playLottie}
+        onFinish={onLottieDone}
+        onReady={onLottieReady}
+      />
+    );
   }
 
   return (
