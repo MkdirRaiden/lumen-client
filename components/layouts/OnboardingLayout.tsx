@@ -1,57 +1,55 @@
 import { AnimatedView } from "@components/common/AnimatedView";
+import { onboardingScreens } from "@lib/constants/onboardingSteps";
 import { useSwipeNavigation } from "@lib/hooks/common/useSwipeNavigation";
 import { useThemeColors } from "@lib/hooks/theme";
-import type { OnboardingRouteStrings } from "@lib/routes";
-import { routes } from "@lib/routes";
-import type { OnboardingLayoutProps } from "@lib/types";
-import { useRouter } from "expo-router";
-import LottieView from "lottie-react-native";
-import React from "react";
+import { usePathname, useRouter } from "expo-router";
+import type { ReactNode } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+interface OnboardingLayoutProps {
+  children: ReactNode;
+  onNext: () => void;
+  buttonLabel?: string;
+  showSkip?: boolean;
+  onSkip?: () => void;
+}
+
 export const OnboardingLayout = ({
-  animation,
-  title,
-  subtitle,
+  children,
   onNext,
   buttonLabel = "Continue",
   showSkip = false,
   onSkip,
-  step = 1,
-  totalSteps = 4,
 }: OnboardingLayoutProps) => {
   const { get } = useThemeColors();
   const insets = useSafeAreaInsets();
+  const pathname = usePathname();
   const router = useRouter();
+
+  const currentStepIndex = onboardingScreens.findIndex((r) => r === pathname);
+  const totalSteps = onboardingScreens.length;
 
   const dotSize = 12;
   const margin = 5;
   const indicatorSpacing = dotSize + margin * 2;
 
-  const onboardingScreens: OnboardingRouteStrings[] = [
-    routes.stack.onboarding.screen1,
-    routes.stack.onboarding.screen2,
-    routes.stack.onboarding.screen3,
-    routes.stack.onboarding.screen4,
-  ];
-
   const panResponder = useSwipeNavigation({
-    currentIndex: step - 1,
-    total: onboardingScreens.length,
+    currentIndex: currentStepIndex,
+    total: totalSteps,
     routes: onboardingScreens,
   });
 
   return (
     <View
-      className="flex-1 justify-around gap-6"
+      className="flex-1 justify-between"
       style={{
         backgroundColor: `rgb(${get("--color-bg")})`,
         paddingTop: insets.top + 24,
         paddingBottom: insets.bottom + 24,
       }}
     >
-      {/* Step indicators */}
+      {/* 🔘 Step Indicator Dots */}
       <AnimatedView fade duration={250}>
         <View
           className="relative items-center mx-auto"
@@ -63,10 +61,10 @@ export const OnboardingLayout = ({
           }}
         >
           <View className="flex-row justify-between items-center w-full">
-            {Array.from({ length: totalSteps }).map((_, i) => (
+            {onboardingScreens.map((route, i) => (
               <Pressable
-                key={i}
-                onPress={() => router.push(onboardingScreens[i])}
+                key={route}
+                onPress={() => router.push(route as any)}
                 className="mx-1"
               >
                 <View
@@ -75,7 +73,7 @@ export const OnboardingLayout = ({
                     width: dotSize,
                     height: dotSize,
                     backgroundColor:
-                      step === i + 1
+                      i === currentStepIndex
                         ? `rgb(${get("--color-primary")})`
                         : `rgb(${get("--color-muted")})`,
                   }}
@@ -86,33 +84,12 @@ export const OnboardingLayout = ({
         </View>
       </AnimatedView>
 
-      <View>
-        {/* Animation */}
-        <AnimatedView fade scale duration={400}>
-          <View className="items-center">
-            <LottieView
-              source={animation}
-              autoPlay
-              loop
-              style={{ width: 260, height: 260 }}
-            />
-          </View>
-        </AnimatedView>
+      {/* 🧠 Screen Content (Lottie, text, inputs, etc.) */}
+      <AnimatedView fade scale duration={400}>
+        <View className="px-6">{children}</View>
+      </AnimatedView>
 
-        {/* Title and subtitle */}
-        <AnimatedView fade translateY duration={400}>
-          <View className="px-6">
-            <Text className="text-2xl font-bold text-center text-text mb-3">
-              {title}
-            </Text>
-            <Text className="text-base text-center text-text/75 mb-3 w-4/5 mx-auto min-h-20">
-              {subtitle}
-            </Text>
-          </View>
-        </AnimatedView>
-      </View>
-
-      {/* Navigation buttons */}
+      {/* 🟡 Buttons */}
       <AnimatedView fade translateY duration={300}>
         <View className="px-6 min-h-32">
           <Pressable

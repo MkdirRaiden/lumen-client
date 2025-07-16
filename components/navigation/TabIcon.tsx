@@ -1,4 +1,5 @@
 import { Feather } from "@expo/vector-icons";
+import { useThemeColors } from "@lib/hooks/theme";
 import React from "react";
 import { Text, View } from "react-native";
 
@@ -17,26 +18,33 @@ export const TabIcon = ({
   color,
   label,
 }: TabIconProps) => {
-  const containerClass = focused
-    ? "items-center justify-center bg-primary/10 rounded-full"
-    : "items-center justify-center";
+  const { get } = useThemeColors();
 
-  const labelClass = focused
-    ? "text-[11px] font-medium text-primary mt-1 text-center"
-    : "text-[11px] text-muted mt-1 text-center";
+  const glowStyle = focused
+    ? {
+        shadowColor: `rgb(${get("--color-primary")})`,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.4,
+        shadowRadius: 8,
+        elevation: 6,
+      }
+    : {};
 
   return (
     <View
-      className={`flex-col p-2 ${containerClass}`}
-      style={{
-        minWidth: 64,
-        paddingTop: 8,
-        paddingBottom: 4,
-        paddingHorizontal: 12,
-      }}
+      className={`flex-col items-center justify-center px-3 pt-2 pb-1 rounded-full ${
+        focused ? "bg-primary/10" : ""
+      }`}
+      style={{ minWidth: 64, ...glowStyle }}
     >
       <Feather name={name} size={size} color={color} />
-      <Text className={labelClass}>{label}</Text>
+      <Text
+        className={`text-[11px] mt-1 text-center ${
+          focused ? "text-primary font-semibold" : "text-muted"
+        }`}
+      >
+        {label}
+      </Text>
     </View>
   );
 };

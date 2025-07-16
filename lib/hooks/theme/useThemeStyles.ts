@@ -1,21 +1,10 @@
-import { ThemeContext } from "@lib/context/ThemeContext";
 import type { SemanticToken, TailwindPrefix } from "@lib/types/theme";
-import { useContext } from "react";
+import { useTheme } from "./useTheme";
 
 export const useThemeStyles = () => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
-  const tw: Record<SemanticToken | "border" | "card", string> = {
-    bg: "bg-bg",
-    screen: "bg-screen",
-    text: "text-text",
-    primary: "text-primary",
-    secondary: "text-secondary",
-    accent: "text-accent",
-    muted: "text-muted",
-    border: "border-muted",
-    card: "bg-screen",
-  };
+  const isDark = theme === "dark";
 
   const getClass = (prefix: TailwindPrefix, token: SemanticToken): string =>
     `${prefix}-${token}`;
@@ -29,15 +18,12 @@ export const useThemeStyles = () => {
   const getVar = (cssVar: string): string => `var(${cssVar})`;
 
   const styleVar = (property: string, cssVar: string) => ({
-    [property]: `var(${cssVar})`,
+    [property]: getVar(cssVar),
   });
-
-  const isDark = theme === "dark";
 
   return {
     theme,
     isDark,
-    tw,
     getClass,
     getClassWithOpacity,
     getVar,

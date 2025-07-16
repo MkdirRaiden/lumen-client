@@ -14,7 +14,7 @@ export const Header = ({ title }: Props) => {
       accessibilityRole="header"
     >
       <View className="flex-row items-center gap-3">
-        {title !== "Home" ? (
+        {title !== "Journey" ? (
           <Text className="text-xl font-bold text-text">{title}</Text>
         ) : (
           <View className="justify-center items-center w-12 h-12">

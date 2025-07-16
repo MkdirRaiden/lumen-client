@@ -7,7 +7,7 @@ export default function Logo() {
     <View>
       <Image
         source={logoSource}
-        style={{ width: 75, height: 75, resizeMode: "cover" }}
+        style={{ width: 70, height: 70, resizeMode: "contain" }}
       />
     </View>
   );

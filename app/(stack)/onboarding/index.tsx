@@ -1,12 +1,13 @@
-import { withFadeScaleTransition } from "@components/common/withFadeScaleTransition";
 import { OnboardingLayout } from "@components/layouts/OnboardingLayout";
+import { routes } from "@lib/constants/routes";
 import { useTheme } from "@lib/hooks/theme";
-import { routes } from "@lib/routes";
 import { useRouter } from "expo-router";
+import LottieView from "lottie-react-native";
+import { Text, View } from "react-native";
 
-export default function OnboardingScreen1Inner() {
-  const router = useRouter();
+export default function OnboardingIntroScreen() {
   const { theme } = useTheme();
+  const router = useRouter();
 
   const animation =
     theme === "dark"
@@ -15,20 +16,26 @@ export default function OnboardingScreen1Inner() {
 
   return (
     <OnboardingLayout
-      animation={animation}
-      title="Ignite Your Inner Light"
-      subtitle="Welcome to Lumen — where your journey toward truth begins with a spark of curiosity."
-      buttonLabel="Begin the Journey →"
-      onNext={() => router.push(routes.stack.onboarding.screen2)}
+      onNext={() => router.push(routes.stack.onboarding.purpose as any)}
       showSkip
-      step={1}
-      onSkip={() => {
-        router.replace(routes.tabs.home);
-      }}
-    />
+      onSkip={() => router.replace(routes.tabs.journey as any)}
+    >
+      <View className="items-center mb-6">
+        <LottieView
+          source={animation}
+          autoPlay
+          loop
+          style={{ width: 260, height: 260 }}
+        />
+      </View>
+
+      <Text className="text-2xl font-bold text-center text-text mb-3">
+        Ignite Your Inner Light
+      </Text>
+      <Text className="text-base text-center text-text/75 mb-3 w-4/5 mx-auto min-h-20">
+        Welcome to Lumen’s Ark — your journey toward divine truth begins with a
+        spark of curiosity.
+      </Text>
+    </OnboardingLayout>
   );
 }
-
-export const OnboardingScreen1 = withFadeScaleTransition(
-  OnboardingScreen1Inner
-);

@@ -5,7 +5,7 @@ export default function LearnScreen() {
   return (
     <PageLayout scroll padded centered>
       <Text className="text-lg font-semibold text-text">
-        Learn module coming soon!
+        Insight module coming soon!
       </Text>
     </PageLayout>
   );

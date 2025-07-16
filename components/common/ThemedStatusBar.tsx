@@ -12,17 +12,17 @@ export default function ThemedStatusBar() {
 
   return (
     <>
-      {/* Native only: simulate background under translucent status bar */}
+      {/* Render this only on native platforms, not web */}
       {Platform.OS !== "web" && (
         <View
           style={{
-            height: insets.top,
-            backgroundColor,
             position: "absolute",
             top: 0,
             left: 0,
             right: 0,
-            zIndex: -1, // behind content
+            height: insets.top,
+            backgroundColor,
+            zIndex: 0, // stays behind header or content
           }}
         />
       )}

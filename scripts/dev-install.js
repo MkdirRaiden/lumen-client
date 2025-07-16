@@ -1,35 +1,60 @@
 require("dotenv").config();
-
-// scripts/dev-install.js
 const { execSync } = require("child_process");
+const path = require("path");
 
-const PACKAGE = "com.truth.lumen.v1";
-const DEVICE_IP = process.env.LUMEN_DEVICE_IP || "192.168.137.199:5555";
-const GRADLE_CMD = process.platform === "win32" ? "gradlew.bat" : "./gradlew";
+const PACKAGE = process.env.LUMEN_PACKAGE_NAME || "com.truth.lumen.v1";
+const DEVICE_IP = process.env.LUMEN_DEVICE_IP || "192.168.31.94:5555";
 
-// Parse CLI flags
-const isDevice = process.argv.includes("--device");
-const isEmulator = process.argv.includes("--emulator");
-
-function run(command) {
+function run(command, options = {}) {
     console.log(`> ${command}`);
-    execSync(command, { stdio: "inherit" });
+    execSync(command, {
+        stdio: "inherit",
+        cwd: options.cwd || process.cwd(),
+    });
 }
 
-console.log(`📦 Target: ${isDevice ? "Real Device" : "Emulator"}`);
-if (isDevice) {
+function isDeviceConnected() {
+    try {
+        const output = execSync("adb devices").toString();
+        return output
+            .split("\n")
+            .some((line) => line.includes("device") && !line.includes("List"));
+    } catch {
+        return false;
+    }
+}
+
+console.log("📦 Target: Real Device");
+
+// Try to connect wirelessly
+if (!isDeviceConnected()) {
     console.log(`🔌 Connecting to device at ${DEVICE_IP}...`);
-    run(`adb connect ${DEVICE_IP}`);
+    try {
+        run(`adb connect ${DEVICE_IP}`);
+    } catch {
+        console.error("❌ Failed to connect to device via ADB.");
+        process.exit(1);
+    }
 }
 
-// Uninstall old APK
+if (!isDeviceConnected()) {
+    console.error("❌ No real device connected. Exiting.");
+    process.exit(1);
+}
+
+// Uninstall old APK (ignore if fails)
 console.log(`🧹 Uninstalling package ${PACKAGE}...`);
-run(`adb uninstall ${PACKAGE}`);
+try {
+    run(`adb uninstall ${PACKAGE}`);
+} catch {
+    console.warn("⚠️ Could not uninstall package — it may not be installed yet.");
+}
 
-// Build & install debug APK
+// Build & install the debug APK from android folder
 console.log("📱 Building & installing debug APK...");
-run(`${GRADLE_CMD} -p android installDebug`);
+const gradleCmd = process.platform === "win32" ? "gradlew.bat" : "./gradlew";
+run(`${gradleCmd} installDebug`, { cwd: path.join(__dirname, "..", "android") });
 
-// Start Expo dev client
+// Start Expo Dev Client
 console.log("🚀 Starting Expo dev client...");
-run(`npx expo start --dev-client`);
+run("npx expo start --dev-client");

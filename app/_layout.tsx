@@ -1,4 +1,4 @@
-import "../splash-init"; // FIRST!
+import "../splash-init"; // must be first
 
 import AppLayout from "@components/layouts/AppLayout";
 import { ThemeProvider } from "@lib/context/ThemeContext";
@@ -7,7 +7,7 @@ import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
-LogBox.ignoreAllLogs(true);
+LogBox.ignoreAllLogs(true); // This hides all warnings
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({

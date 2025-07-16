@@ -1,5 +1,4 @@
 import { AnimatedView } from "@components/common/AnimatedView";
-import * as SplashScreenExpo from "expo-splash-screen";
 import LottieView from "lottie-react-native";
 import { useEffect, useRef, useState } from "react";
 import { StatusBar, View } from "react-native";
@@ -16,42 +15,33 @@ export default function SplashScreen({
   onReady,
 }: SplashScreenProps) {
   const animationRef = useRef<LottieView>(null);
-  const [hasFinished, setHasFinished] = useState(false);
-  const [lottieReady, setLottieReady] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [done, setDone] = useState(false);
 
   const handleFinish = () => {
-    if (hasFinished) return;
-    setHasFinished(true);
-    console.log("🎬 Lottie finished");
+    if (done) return;
+    setDone(true);
     onFinish();
   };
 
-  const handleLayout = async () => {
-    console.log("📦 Lottie loaded & layout ready");
-    setLottieReady(true);
-    onReady?.(); // 👈 fire back to AppLayout
-
-    try {
-      await SplashScreenExpo.hideAsync();
-      console.log("🖼️ Native splash hidden");
-    } catch {}
+  const handleLayout = () => {
+    setReady(true);
+    onReady();
   };
 
   useEffect(() => {
-    if (lottieReady && play && animationRef.current) {
-      console.log("▶️ .play() Lottie");
+    if (ready && play && animationRef.current) {
       animationRef.current.play();
     }
-  }, [play, lottieReady]);
+  }, [play, ready]);
 
   return (
     <View className="flex-1 bg-[#FFF6D1] justify-center items-center">
       <StatusBar hidden />
       <AnimatedView
         scale
-        duration={1200}
-        delay={0}
         visible={play}
+        duration={1200}
         className="w-[200px] h-[200px]"
       >
         <LottieView

@@ -1,5 +1,5 @@
+import { routes } from "@lib/constants/routes";
 import { useThemeColors } from "@lib/hooks/theme";
-import { routes } from "@lib/routes";
 import { ResizeMode, Video } from "expo-av";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";

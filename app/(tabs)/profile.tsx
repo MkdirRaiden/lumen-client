@@ -1,11 +1,11 @@
 import PageLayout from "@components/layouts/PageLayout";
 import { Text } from "react-native";
 
-export default function SettingsScreen() {
+export default function LearnScreen() {
   return (
     <PageLayout scroll padded centered>
       <Text className="text-lg font-semibold text-text">
-        Settings module coming soon!
+        Profile module coming soon!
       </Text>
     </PageLayout>
   );

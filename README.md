@@ -53,14 +53,10 @@ npm run web
 
 Create a `.env` file at the root:
 
-```bash
-cp .env.example .env
-```
-
 You’ll need:
 
 ```env
-LUMEN_DEVICE_IP=<your device>
+LUMEN_DEVICE_IP=<your device IP>
 ```
 
 ---

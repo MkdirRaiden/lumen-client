@@ -1,7 +1,7 @@
 import { ModuleCardGrid } from "@components/cards/ModuleCardGrid";
 import { ModuleCardHorizontal } from "@components/cards/ModuleCardHorizontal";
 import { modulesList } from "@lib/constants/modules";
-import { routes } from "@lib/routes";
+import { routes } from "@lib/constants/routes";
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";

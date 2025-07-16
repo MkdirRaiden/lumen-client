@@ -1,4 +1,4 @@
-import { routes } from "@lib/routes";
+import { routes } from "@lib/constants/routes";
 import { Module } from "@lib/types";
 
 export const modulesList: Module[] = [

@@ -1,4 +1,3 @@
-// splash-init.ts
 import * as SplashScreen from "expo-splash-screen";
 
 declare global {
@@ -9,14 +8,12 @@ if (!global.__splash_init_ran__) {
   global.__splash_init_ran__ = true;
 
   (async () => {
-    console.log(
-      "🟡 Calling preventAutoHideAsync() before React loads (and awaiting it)"
-    );
     try {
+      console.log("🟡 Calling preventAutoHideAsync");
       await SplashScreen.preventAutoHideAsync();
-      console.log("🟢 preventAutoHideAsync resolved");
+      console.log("🟢 Native splash is locked");
     } catch (e) {
-      console.warn("⚠️ preventAutoHideAsync failed", e);
+      console.warn("⚠️ Splash prevent failed", e);
     }
   })();
 }

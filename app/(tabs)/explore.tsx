@@ -1,10 +1,12 @@
-import { ModulesList } from "@components/home/ModulesList";
 import PageLayout from "@components/layouts/PageLayout";
+import { Text } from "react-native";
 
-export default function ExploreScreen() {
+export default function LearnScreen() {
   return (
-    <PageLayout scroll padded>
-      <ModulesList showAll />
+    <PageLayout scroll padded centered>
+      <Text className="text-lg font-semibold text-text">
+        Explore module coming soon!
+      </Text>
     </PageLayout>
   );
 }
