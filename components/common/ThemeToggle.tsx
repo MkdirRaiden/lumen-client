@@ -13,6 +13,7 @@ export const ThemeToggle = () => {
     Haptics.selectionAsync();
     toggleTheme();
   };
+  // console.log(get("--color-text"));
 
   return (
     <Pressable

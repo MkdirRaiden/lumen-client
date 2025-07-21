@@ -1,4 +1,5 @@
-import "../splash-init"; // must be first
+// app/_layout.tsx
+import "../splash-init"; // Must be first to lock splash screen
 
 import AppLayout from "@components/layouts/AppLayout";
 import { ThemeProvider } from "@lib/context/ThemeContext";
@@ -7,9 +8,9 @@ import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
-LogBox.ignoreAllLogs(true); // This hides all warnings
+LogBox.ignoreAllLogs(true);
 
-export default function Layout() {
+export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     IBMPlexSans: require("@assets/fonts/IBM-PlexSans-Regular.ttf"),
     "IBMPlexSans-Bold": require("@assets/fonts/IBM-PlexSans-Bold.ttf"),

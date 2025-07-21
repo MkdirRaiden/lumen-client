@@ -1,16 +1,26 @@
-# 🌟 Lumen: Explore Truth Without Bias
+# 🌊 Lumen's Ark: Truth. Logic. Revelation.
 
-Lumen is a truth-based religious exploration app that empowers users to critically and spiritually explore religious quotes, founders, key concepts, scientific facts, and myths — all without bias. Think. Question. Discover. Powered by Lumen AI.
+**Lumen’s Ark** is a spiritually gamified journey through divine encounters, suppressed voices, logic, and revelation — guiding seekers from blind belief to illuminated understanding. You don’t just follow — you awaken.
 
 ---
 
-## ✨ Features
+## 🌟 Core Pillars
 
-- 🧠 Explore religious teachings critically
-- 📜 Learn from historical + mythical figures
-- 🧪 See scientific facts alongside belief systems
-- ⚡ Powered by Expo Router, NativeWind, Lottie, and Custom Dev Client
-- 📲 Optimized for both emulator and physical device workflows
+- 🧭 **Journey Mode**: Meet prophets, sages, rebels, and forgotten figures — each unlocking wisdom and key resources.
+- 📖 **Scriptures & Books**: Unlock spiritual, scientific, and philosophical texts as you progress.
+- 🧠 **Modules of Awakening**: Train your intellect through truth, rhetoric, myth-busting, and awakening logic.
+- 🤖 **Lumen AI Guide**: Ask spiritual and rational questions without dogma or bias.
+- ⚖️ **Injustice Archive**: Discover hidden truths and historical deceptions across time.
+- 🏛️ **Hall of Awakened Ones**: Log your XP, track progress, and reflect on virtue-based milestones.
+
+---
+
+## 🚀 Powered By
+
+- ⚡ `Expo Router`, `NativeWind`, `Lottie`, `React Native Reanimated`
+- 🎯 Custom animation hooks, onboarding system, splash control
+- 🧱 Modular structure for stack/tab/modal navigation
+- 📲 Optimized for real device + emulator
 
 ---
 
@@ -20,7 +30,7 @@ Lumen is a truth-based religious exploration app that empowers users to critical
 git clone https://github.com/MkdirRaiden/lumen-client.git
 cd lumen-client
 npm install
-npx expo start
+npx expo start --dev-client
 ```
 
 To test on web:
@@ -29,52 +39,46 @@ To test on web:
 npm run web
 ```
 
-📘 See the full [Developer Guide → DEVELOPMENT.md](./DEVELOPMENT.md)
-
-> ⚠️ Requires `Node.js 18+`, `Expo CLI`, and Android/iOS/Web environment
+> 📘 See the full [Developer Guide → DEVELOPMENT.md](./DEVELOPMENT.md)
 
 ---
 
-## 📁 Scripts & CLI Tools
+## 💡 Project Structure Highlights
 
-| Script               | Description                              |
-| -------------------- | ---------------------------------------- |
-| `dev:connect`        | Start dev client for emulator            |
-| `dev:connect:device` | Connect to physical device via ADB + run |
-| `dev:emulator`       | Build + install APK on emulator          |
-| `dev:device`         | Build + install APK on real device       |
-| `prebuild`           | Clean + regenerate native folders        |
-| `prebuild:device`    | Prebuild + install to real device        |
-| `prebuild:emulator`  | Prebuild + install to emulator           |
-
----
-
-## 📂 Environment Config
-
-Create a `.env` file at the root:
-
-You’ll need:
-
-```env
-LUMEN_DEVICE_IP=<your device IP>
-```
+| Folder              | Purpose                                         |
+| ------------------- | ----------------------------------------------- |
+| `app/(tabs)`        | Main tabs: journey, ark, insight, etc.          |
+| `app/(stack)`       | Stack-based screens for encounters, books, etc. |
+| `components/`       | Reusable UI elements                            |
+| `lib/hooks`         | Theming, animation, onboarding logic            |
+| `lib/constants`     | Routes, themes, tokens                          |
+| `assets/animations` | Lottie JSONs used across onboarding             |
 
 ---
 
-## 🤝 Contributing
+## 🌍 Philosophy
 
-Please read the [Code of Conduct](./CODE_OF_CONDUCT.md) before contributing.  
-Open a pull request or issue and we'll get back to you.
+> **“Truth doesn’t fear scrutiny.”**  
+> Lumen’s Ark isn't a religion. It's a spiritual vessel — a guided path through divine reason, revelation, and the hidden patterns of history.
+
+You don’t blindly believe — you **verify**, **reflect**, and **awaken**.
 
 ---
 
-## 🧠 Philosophy
+## 🤝 Contributions
 
-> Truth doesn't fear scrutiny.  
-> With Lumen, you don't just follow — you understand.
+Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) before contributing.  
+Open a pull request or issue. We welcome sincere seekers and creative devs alike.
 
 ---
 
 ## 📜 License
 
-MIT
+MIT — Free to fork, but not to mislead.
+
+---
+
+## 🛡️ Built By
+
+**MkdirRaiden** — Truth-seeker. Builder. Visionary.  
+Crafted with divine purpose and code.

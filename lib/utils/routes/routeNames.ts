@@ -1,10 +1,30 @@
 export const routeNames = {
-  onboarding1: "onboarding/index",
-  onboarding2: "onboarding/screen2",
-  onboarding3: "onboarding/screen3",
-  onboarding4: "onboarding/screen4",
-  truth: "truth/index",
+  // Onboarding flow
+  "onboarding.intro": "onboarding/index",
+  "onboarding.purpose": "onboarding/purpose",
+  "onboarding.geospawn": "onboarding/geospawn",
+  "onboarding.system": "onboarding/system",
+  "onboarding.intention": "onboarding/intention",
+
+  // Core modules
+  "modules.truth": "modules/truth",
+  "modules.rhetoric": "modules/rhetoric",
+  "modules.myths": "modules/myths",
+  "modules.awakening": "modules/awakening",
+
+  // Key stack pages
   askLumen: "ask-lumen/index",
+  awakened: "awakened/index",
+  vision: "vision/index",
+
+  // Dynamic paths (these can't be statically imported but added for type safety)
+  encounter: "encounter/[slug]",
+  "figures.list": "figures/[category]",
+  "figures.detail": "figures/[category]/[slug]",
+  scripture: "scripture/[slug]",
+  book: "book/[slug]",
+  voice: "voice/[slug]",
+  injustice: "injustice/[slug]",
 } as const;
 
 export type RouteNameKey = keyof typeof routeNames;

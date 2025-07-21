@@ -20,28 +20,31 @@ export const TabIcon = ({
 }: TabIconProps) => {
   const { get } = useThemeColors();
 
-  const glowStyle = focused
-    ? {
-        shadowColor: `rgb(${get("--color-primary")})`,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.4,
-        shadowRadius: 8,
-        elevation: 6,
-      }
-    : {};
-
   return (
     <View
-      className={`flex-col items-center justify-center px-3 pt-2 pb-1 rounded-full ${
-        focused ? "bg-primary/10" : ""
-      }`}
-      style={{ minWidth: 64, ...glowStyle }}
+      className="flex-col items-center justify-center"
+      style={{ minWidth: 70 }}
     >
-      <Feather name={name} size={size} color={color} />
+      {/* Icon with background when focused */}
+      <View
+        className={`items-center justify-center rounded-full ${
+          focused ? "bg-primary/20" : ""
+        }`}
+        style={{
+          width: size * 2,
+          height: size * 1.25,
+        }}
+      >
+        <Feather name={name} size={size} color={color} />
+      </View>
+
+      {/* Label (single line, centered) */}
       <Text
         className={`text-[11px] mt-1 text-center ${
           focused ? "text-primary font-semibold" : "text-muted"
         }`}
+        numberOfLines={1}
+        ellipsizeMode="clip"
       >
         {label}
       </Text>

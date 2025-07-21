@@ -3,7 +3,7 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-// ENV values
+// ENV
 const PACKAGE_NAME = process.env.LUMEN_PACKAGE_NAME || "com.truth.lumen.v1";
 const DEVICE_IP = process.env.LUMEN_DEVICE_IP || "192.168.31.94:5555";
 const SDK_PATH = process.env.ANDROID_SDK_ROOT || process.env.ANDROID_HOME;
@@ -12,6 +12,7 @@ const SDK_PATH = process.env.ANDROID_SDK_ROOT || process.env.ANDROID_HOME;
 const LOCAL_PROPERTIES = "android/local.properties";
 const GRADLE_CMD = process.platform === "win32" ? "gradlew.bat" : "./gradlew";
 
+// 🧰 Helpers
 function run(cmd, options = {}) {
     console.log(`> ${cmd}`);
     execSync(cmd, {
@@ -32,16 +33,16 @@ function isDeviceConnected() {
 }
 
 function connectRealDevice() {
-    if (!isDeviceConnected()) {
-        console.log(`🔌 Connecting to device at ${DEVICE_IP}...`);
-        try {
-            run(`adb connect ${DEVICE_IP}`);
-        } catch {
-            console.error("❌ Failed to connect to device via ADB.");
-            process.exit(1);
+    console.log(`🔌 Trying to connect to device at ${DEVICE_IP}...`);
+    try {
+        run(`adb connect ${DEVICE_IP}`);
+        if (!isDeviceConnected()) {
+            throw new Error("Device did not appear after connect");
         }
-    } else {
-        console.log("✅ Real device already connected.");
+        console.log("✅ Device connected.");
+    } catch (err) {
+        console.error("❌ ADB connection failed. Is your device on the same network?");
+        process.exit(1);
     }
 }
 
@@ -50,30 +51,35 @@ function uninstallApp() {
     try {
         run(`adb uninstall ${PACKAGE_NAME}`);
     } catch {
-        console.warn("⚠️ App not installed or device not connected.");
+        console.warn("⚠️ App may not be installed yet. Skipping uninstall.");
     }
 }
 
 function ensureLocalProperties() {
     if (!fs.existsSync(LOCAL_PROPERTIES)) {
         if (!SDK_PATH) {
-            console.error("❌ ANDROID_SDK_ROOT or ANDROID_HOME not set");
+            console.error("❌ ANDROID_SDK_ROOT or ANDROID_HOME not set.");
             process.exit(1);
         }
-        const escapedPath = SDK_PATH.replace(/\\/g, "\\\\");
-        fs.writeFileSync(LOCAL_PROPERTIES, `sdk.dir=${escapedPath}`, { encoding: "ascii" });
-        console.log(`✅ Created local.properties with SDK path: ${escapedPath}`);
+        const escaped = SDK_PATH.replace(/\\/g, "\\\\");
+        fs.writeFileSync(LOCAL_PROPERTIES, `sdk.dir=${escaped}`, "ascii");
+        console.log(`✅ Created local.properties with SDK path: ${escaped}`);
     } else {
-        console.log("✅ local.properties already exists");
+        console.log("✅ local.properties exists");
     }
 }
 
 function runPrebuild() {
-    console.log("⚙️ Running expo prebuild (preserving native changes)...");
+    console.log("⚙️ Running Expo prebuild...");
     run("npx expo prebuild");
 }
 
 function buildAndInstallAPK() {
+    if (!isDeviceConnected()) {
+        console.error("❌ No Android device connected! Please connect one and try again.");
+        process.exit(1);
+    }
+
     console.log("📱 Building APK and installing...");
     run(`${GRADLE_CMD} installDebug`, {
         cwd: path.join(__dirname, "..", "android"),
@@ -85,13 +91,14 @@ function startDevClient() {
     run("npx expo start --dev-client");
 }
 
+// 🧩 Main
 function main() {
     connectRealDevice();
     uninstallApp();
     ensureLocalProperties();
-    runPrebuild(); // Regenerate native code without removing android/ios
+    runPrebuild();
     buildAndInstallAPK();
     startDevClient();
 }
 
-main()
+main();

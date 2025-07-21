@@ -17,8 +17,6 @@ export default function OnboardingIntroScreen() {
   return (
     <OnboardingLayout
       onNext={() => router.push(routes.stack.onboarding.purpose as any)}
-      showSkip
-      onSkip={() => router.replace(routes.tabs.journey as any)}
     >
       <View className="items-center mb-6">
         <LottieView

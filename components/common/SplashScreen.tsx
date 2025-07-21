@@ -42,7 +42,7 @@ export default function SplashScreen({
         scale
         visible={play}
         duration={1200}
-        className="w-[200px] h-[200px]"
+        className="w-[150px] h-[150px]"
       >
         <LottieView
           ref={animationRef}

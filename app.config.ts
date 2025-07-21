@@ -3,13 +3,16 @@ import { ConfigContext, ExpoConfig } from "@expo/config";
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
 
-  name: "Lumen",
-  slug: "lumen",
+  name: "Lumen's Ark",
+  slug: "lumens-ark",
   version: "1.0.0",
   orientation: "default",
-  scheme: "lumen",
+  scheme: "lumens-ark", // Enables deep linking
   userInterfaceStyle: "automatic",
   icon: "./assets/logos/icon.png",
+  description:
+    "A spiritual truth-seeking journey through divine revelation, logic, justice, and awakening — powered by Lumen's Ark.",
+  owner: "MkdirRaiden", // replace with your Expo or GitHub username if using EAS
 
   splash: {
     image: "./assets/logos/splash.png",
@@ -47,6 +50,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "com.truth.lumen.v1",
   },
 
   web: {
@@ -56,9 +60,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
 
   experiments: {
-    typedRoutes: true,
+    typedRoutes: true, // Helps ensure type-safe routing
   },
 
-  newArchEnabled: true,
+  extra: {
+    appDisplayName: "Lumen's Ark",
+  },
+  newArchEnabled: true, // For Fabric renderer + TurboModules
   assetBundlePatterns: ["**/*"],
 });

@@ -1,47 +1,59 @@
-import { HeroBanner } from "@components/home/HeroBanner";
-import { ModulesList } from "@components/home/ModulesList";
-import { ScriptureCarousel } from "@components/home/ScriptureCarousel";
+import { AnimatedView } from "@components/common/AnimatedView";
 import PageLayout from "@components/layouts/PageLayout";
-import { routes } from "@lib/constants/routes";
 import { useThemeColors } from "@lib/hooks/theme";
 import { useRouter } from "expo-router";
-import React from "react";
 import { Pressable, Text, View } from "react-native";
 
-export default function HomeScreen() {
-  const router = useRouter();
+export default function JourneyScreen() {
   const { get } = useThemeColors();
+  const router = useRouter();
 
   return (
-    <PageLayout scroll>
-      <HeroBanner />
-      <ScriptureCarousel />
+    <PageLayout scroll padded>
+      <AnimatedView fade translateY>
+        <View className="mb-6">
+          <Text className="text-xl font-bold text-text mb-1">
+            🌊 Ark Status
+          </Text>
+          <Text className="text-muted">
+            Level 2 • XP: 148 / 300 • Virtue: Honest Seeker
+          </Text>
+        </View>
+      </AnimatedView>
 
-      {/* Enlighten Me section */}
-      <Pressable
-        className="rounded-xl mt-3 bg-primary/10 border border-primary p-4"
-        onPress={() => router.push(routes.stack.askLumen as any)}
-        accessibilityLabel="Enlighten Me"
-      >
-        <Text className="text-center text-lg font-semibold text-primary">
-          ✨ Enlighten Me
-        </Text>
-        <Text className="text-center text-sm text-text/80 mt-1">
-          Get a random insight across religions and science
-        </Text>
-      </Pressable>
+      <AnimatedView fade translateY delay={100}>
+        <View className="mb-6">
+          <Text className="text-xl font-bold text-text mb-2">
+            🧭 Current Quest
+          </Text>
+          <View className="bg-surface p-4 rounded-xl border border-border">
+            <Text className="text-text font-semibold text-base mb-1">
+              Encounter with Prophet Moses (Mūsā)
+            </Text>
+            <Text className="text-muted text-sm mb-3">
+              Face the tyrant, challenge falsehood, and unlock the Torah.
+            </Text>
+            <Pressable
+              onPress={() => router.push("/(stack)/encounter/moses" as any)}
+              className="bg-primary py-2 px-4 rounded-lg self-start"
+            >
+              <Text className="text-white font-medium">Begin</Text>
+            </Pressable>
+          </View>
+        </View>
+      </AnimatedView>
 
-      <Text className="text-xl font-semibold text-text mt-8">
-        Discover Modules
-      </Text>
-      <ModulesList />
-
-      {/* Footer */}
-      <View className="mt-6 items-center">
-        <Text className="text-xs text-muted">
-          Lumen v1.0.0 — Built for Light
-        </Text>
-      </View>
+      <AnimatedView fade translateY delay={200}>
+        <View>
+          <Text className="text-xl font-bold text-text mb-2">🔓 Unlocks</Text>
+          <Text className="text-muted mb-2">
+            Torah, Pharaoh’s trial, Divine Justice
+          </Text>
+          <Text className="text-muted">
+            Next: Einstein, Hidden Voice from Canaan
+          </Text>
+        </View>
+      </AnimatedView>
     </PageLayout>
   );
 }

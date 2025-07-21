@@ -1,5 +1,6 @@
 import { AnimatedView } from "@components/common/AnimatedView";
 import { onboardingScreens } from "@lib/constants/onboardingSteps";
+import { routes } from "@lib/constants/routes";
 import { useSwipeNavigation } from "@lib/hooks/common/useSwipeNavigation";
 import { useThemeColors } from "@lib/hooks/theme";
 import { usePathname, useRouter } from "expo-router";
@@ -11,27 +12,28 @@ interface OnboardingLayoutProps {
   children: ReactNode;
   onNext: () => void;
   buttonLabel?: string;
-  showSkip?: boolean;
-  onSkip?: () => void;
+  skip?: boolean;
 }
 
 export const OnboardingLayout = ({
   children,
   onNext,
   buttonLabel = "Continue",
-  showSkip = false,
-  onSkip,
+  skip = true,
 }: OnboardingLayoutProps) => {
   const { get } = useThemeColors();
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const router = useRouter();
 
-  const currentStepIndex = onboardingScreens.findIndex((r) => r === pathname);
+  // Find current onboarding step by matching the end of the path
+  const currentStepIndex = onboardingScreens.findIndex((route) =>
+    pathname.endsWith(route.replace("/(stack)", ""))
+  );
   const totalSteps = onboardingScreens.length;
 
-  const dotSize = 12;
-  const margin = 5;
+  const dotSize = 10;
+  const margin = 4;
   const indicatorSpacing = dotSize + margin * 2;
 
   const panResponder = useSwipeNavigation({
@@ -49,7 +51,7 @@ export const OnboardingLayout = ({
         paddingBottom: insets.bottom + 24,
       }}
     >
-      {/* 🔘 Step Indicator Dots */}
+      {/* Progress Dots */}
       <AnimatedView fade duration={250}>
         <View
           className="relative items-center mx-auto"
@@ -84,12 +86,12 @@ export const OnboardingLayout = ({
         </View>
       </AnimatedView>
 
-      {/* 🧠 Screen Content (Lottie, text, inputs, etc.) */}
+      {/* Main Content */}
       <AnimatedView fade scale duration={400}>
         <View className="px-6">{children}</View>
       </AnimatedView>
 
-      {/* 🟡 Buttons */}
+      {/* Bottom Buttons */}
       <AnimatedView fade translateY duration={300}>
         <View className="px-6 min-h-32">
           <Pressable
@@ -101,8 +103,12 @@ export const OnboardingLayout = ({
             </Text>
           </Pressable>
 
-          {showSkip && onSkip && (
-            <Pressable onPress={onSkip} className="py-3 items-center">
+          {/* Skip button visible on all but last screen */}
+          {skip && currentStepIndex < totalSteps - 1 && (
+            <Pressable
+              onPress={() => router.replace(routes.tabs.journey as any)}
+              className="py-3 items-center"
+            >
               <Text className="text-muted">Skip</Text>
             </Pressable>
           )}

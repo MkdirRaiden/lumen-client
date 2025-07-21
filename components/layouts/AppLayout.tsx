@@ -1,4 +1,4 @@
-import { AnimatedView } from "@components/common/AnimatedView";
+// components/layouts/AppLayout.tsx
 import SplashScreen from "@components/common/SplashScreen";
 import ThemedStatusBar from "@components/common/ThemedStatusBar";
 import { useThemeReady, useThemeVersion } from "@lib/hooks/theme";
@@ -8,14 +8,26 @@ import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 
 export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
-  const themeVersion = useThemeVersion();
   const isThemeReady = useThemeReady();
+  const themeVersion = useThemeVersion();
   const navigationReady = !!useRootNavigationState()?.key;
 
-  const hasShownSplash = useRef(false);
+  const [canShowApp, setCanShowApp] = useState(false);
   const [playLottie, setPlayLottie] = useState(false);
-  const [showAppLayout, setShowAppLayout] = useState(false);
   const [lottieStart, setLottieStart] = useState<number | null>(null);
+
+  const hasSplashPlayed = useRef(false);
+
+  useEffect(() => {
+    if (
+      hasSplashPlayed.current &&
+      fontsLoaded &&
+      isThemeReady &&
+      navigationReady
+    ) {
+      setCanShowApp(true);
+    }
+  }, [fontsLoaded, isThemeReady, navigationReady]);
 
   const onLottieReady = () => {
     if (!lottieStart) {
@@ -25,31 +37,26 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   };
 
   const onLottieDone = async () => {
-    if (hasShownSplash.current) return;
+    if (hasSplashPlayed.current) return;
 
     const elapsed = lottieStart ? Date.now() - lottieStart : 0;
     const wait = Math.max(0, 2000 - elapsed);
     if (wait > 0) await new Promise((r) => setTimeout(r, wait));
 
-    hasShownSplash.current = true;
-    setShowAppLayout(true);
-
     try {
       await ExpoSplashScreen.hideAsync();
-      console.log("Native splash is hidden");
-    } catch (e) {
-      console.warn("Failed to hide native splash", e);
+    } catch {
+      /* ignore */
+    }
+
+    hasSplashPlayed.current = true;
+
+    if (fontsLoaded && isThemeReady && navigationReady) {
+      setCanShowApp(true);
     }
   };
 
-  useEffect(() => {
-    const ready = fontsLoaded && isThemeReady && navigationReady;
-    if (hasShownSplash.current && ready) {
-      setShowAppLayout(true);
-    }
-  }, [fontsLoaded, isThemeReady, navigationReady]);
-
-  if (!showAppLayout) {
+  if (!canShowApp) {
     return (
       <SplashScreen
         play={playLottie}
@@ -60,11 +67,9 @@ export default function AppLayout({ fontsLoaded }: { fontsLoaded: boolean }) {
   }
 
   return (
-    <View className="flex-1 bg-screen">
+    <View className="flex-1 bg-bg">
       <ThemedStatusBar />
-      <AnimatedView fade visible duration={500} className="flex-1">
-        <Slot key={themeVersion} />
-      </AnimatedView>
+      <Slot key={themeVersion} />
     </View>
   );
 }

@@ -23,7 +23,7 @@ export default function PageLayout({
     useScrollToTopOnFocus(scrollRef);
   }
 
-  const containerClassName = `flex-1 bg-screen ${padded ? "px-4" : ""} ${className}`;
+  const containerClassName = `flex-1 bg-screen ${padded ? "p-6" : ""} ${className}`;
 
   const contentContainerStyle: ViewStyle | undefined = scroll
     ? {

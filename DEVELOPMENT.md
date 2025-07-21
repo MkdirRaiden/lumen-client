@@ -61,13 +61,11 @@ npm run dev:connect
 
 ## 🛠 Full Build + Install Workflows
 
-| Script              | Description                        |
-| ------------------- | ---------------------------------- |
-| `dev:device`        | Build + install APK on real device |
-| `dev:emulator`      | Build + install APK on emulator    |
-| `prebuild`          | Clean + regenerate native folders  |
-| `prebuild:device`   | Prebuild + install to real device  |
-| `prebuild:emulator` | Prebuild + install to emulator     |
+| Script         | Description                            |
+| -------------- | -------------------------------------- |
+| `dev:connect`  | Connecting to custom dev-client        |
+| `dev:install`  | Build + install APK on device/emulator |
+| `dev:prebuild` | Clean + regenerate native folders      |
 
 ---
 
@@ -77,6 +75,8 @@ npm run dev:connect
 
 ```env
 LUMEN_DEVICE_IP=<your device IP>
+ANDROID_SDK_ROOT=<Your android SDK ROOT path>
+LUMEN_PACKAGE_NAME=<lumen package name if any>
 ```
 
 ---
@@ -91,4 +91,4 @@ LUMEN_DEVICE_IP=<your device IP>
 
 ## ❤️ Thank You
 
-Thanks for contributing to Lumen — where truth, clarity, and code meet.
+Thanks for contributing to Lumen's Ark — where truth, clarity, and code meet.

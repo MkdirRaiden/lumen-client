@@ -1,3 +1,4 @@
+// components/common/ThemedStatusBar.tsx
 import { useTheme } from "@lib/hooks/theme";
 import { StatusBar } from "expo-status-bar";
 import { Platform, View } from "react-native";
@@ -7,12 +8,22 @@ export default function ThemedStatusBar() {
   const { theme, themeColors } = useTheme();
   const insets = useSafeAreaInsets();
 
-  const barStyle = theme === "dark" ? "light" : "dark";
+  // Base background for the top safe area (behind the status bar)
   const backgroundColor = `rgb(${themeColors["--color-bg"]})`;
+
+  // Fix for Android edge-to-edge behavior
+  const barStyle =
+    Platform.OS === "android"
+      ? theme === "dark"
+        ? "dark" // inverted for Android edge-to-edge
+        : "light"
+      : theme === "dark"
+        ? "light"
+        : "dark";
 
   return (
     <>
-      {/* Render this only on native platforms, not web */}
+      {/* For Android/iOS only (not web) */}
       {Platform.OS !== "web" && (
         <View
           style={{
@@ -22,7 +33,7 @@ export default function ThemedStatusBar() {
             right: 0,
             height: insets.top,
             backgroundColor,
-            zIndex: 0, // stays behind header or content
+            zIndex: 0, // keeps it behind header content
           }}
         />
       )}

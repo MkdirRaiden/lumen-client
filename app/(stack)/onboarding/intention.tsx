@@ -22,7 +22,11 @@ export default function OnboardingIntentionScreen() {
   };
 
   return (
-    <OnboardingLayout onNext={handleContinue} buttonLabel="Enter the Ark →">
+    <OnboardingLayout
+      onNext={handleContinue}
+      buttonLabel="Enter the Ark →"
+      skip={false}
+    >
       <Text className="text-2xl font-bold text-center text-text mb-3">
         Set Your Intention
       </Text>

@@ -2,10 +2,12 @@ import type { SemanticColor } from "@lib/types/theme";
 import { useTheme } from "./useTheme";
 
 const toValidColor = (rgbString: string): string => {
-  if (/^\\d+\\s\\d+\\s\\d+$/.test(rgbString)) {
-    return `rgb(${rgbString})`;
+  // Handle raw "15 15 15" -> convert to "rgb(15, 15, 15)"
+  if (/^\d+\s\d+\s\d+$/.test(rgbString)) {
+    const [r, g, b] = rgbString.split(" ");
+    return `rgb(${r.trim()}, ${g.trim()}, ${b.trim()})`;
   }
-  return rgbString;
+  return rgbString; // If already valid (hex or rgb())
 };
 
 export const useThemeColors = () => {

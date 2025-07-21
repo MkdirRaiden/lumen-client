@@ -6,54 +6,77 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+// Dynamic titles based on route segments
 const titles: Record<string, string> = {
   "ask-lumen": "Ask Lumen",
   truth: "Truth",
+  rhetoric: "Rhetoric",
+  awakening: "Awakening",
+  encounter: "Divine Encounter",
+  scripture: "Scripture",
+  book: "Book",
+  voice: "Suppressed Voice",
+  figures: "Figures",
+  injustice: "Injustice",
+  vision: "Lumen's Vision",
+  awakened: "Hall of Awakened Ones",
 };
 
 export default function StackLayout() {
   const { get } = useThemeColors();
   const pathname = usePathname();
-  const key = pathname.split("/")[1]; // e.g., "ask-lumen"
-  const title = titles[key] || "";
+  const key = pathname.split("/")[1]; // e.g., "encounter"
+  const title = titles[key] ?? "";
   const insets = useSafeAreaInsets();
 
-  const { background, foreground } = useMemo(
+  const { background } = useMemo(
     () => ({
       background: `rgb(${get("--color-screen")})`,
-      foreground: `rgb(${get("--color-text")})`,
     }),
     [get]
   );
 
   return (
     <View className="flex-1" style={{ backgroundColor: background }}>
-      {/* Stack header only if route has a title */}
       {!!title && (
         <View style={{ paddingTop: insets.top }}>
           <StackHeader title={title} showBack />
         </View>
       )}
 
-      {/* Stack screens */}
       <Stack
         screenOptions={{
-          headerShown: false, // We use StackHeader manually
+          headerShown: false,
           animation: "fade",
-          contentStyle: {
-            backgroundColor: background,
-          },
+          contentStyle: { backgroundColor: background },
         }}
       >
-        {/* Onboarding screens - header hidden */}
-        <Stack.Screen name={routeNames.onboarding1} />
-        <Stack.Screen name={routeNames.onboarding2} />
-        <Stack.Screen name={routeNames.onboarding3} />
-        <Stack.Screen name={routeNames.onboarding4} />
+        {/* Onboarding Screens */}
+        <Stack.Screen name={routeNames["onboarding.intro"]} />
+        <Stack.Screen name={routeNames["onboarding.purpose"]} />
+        <Stack.Screen name={routeNames["onboarding.geospawn"]} />
+        <Stack.Screen name={routeNames["onboarding.system"]} />
+        <Stack.Screen name={routeNames["onboarding.intention"]} />
 
-        {/* Content screens - header rendered manually */}
-        <Stack.Screen name={routeNames.askLumen} />
-        <Stack.Screen name={routeNames.truth} />
+        {/* Modules */}
+        <Stack.Screen name={routeNames["modules.truth"]} />
+        <Stack.Screen name={routeNames["modules.rhetoric"]} />
+        <Stack.Screen name={routeNames["modules.myths"]} />
+        <Stack.Screen name={routeNames["modules.awakening"]} />
+
+        {/* Static Pages */}
+        <Stack.Screen name={routeNames["askLumen"]} />
+        <Stack.Screen name={routeNames["awakened"]} />
+        <Stack.Screen name={routeNames["vision"]} />
+
+        {/* Dynamic Paths */}
+        <Stack.Screen name={routeNames["encounter"]} />
+        <Stack.Screen name={routeNames["scripture"]} />
+        <Stack.Screen name={routeNames["book"]} />
+        <Stack.Screen name={routeNames["voice"]} />
+        <Stack.Screen name={routeNames["figures.list"]} />
+        <Stack.Screen name={routeNames["figures.detail"]} />
+        <Stack.Screen name={routeNames["injustice"]} />
       </Stack>
     </View>
   );
