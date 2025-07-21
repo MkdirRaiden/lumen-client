@@ -17,7 +17,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/logos/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#FFF6D1",
+    backgroundColor: "#fffbea",
     statusBar: {
       hidden: true,
     },
@@ -30,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         image: "./assets/logos/splash.png",
         resizeMode: "contain",
-        backgroundColor: "#FFF6D1",
+        backgroundColor: "#fffbea",
         statusBar: {
           hidden: true,
         },
@@ -43,7 +43,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     package: "com.truth.lumen.v1",
     adaptiveIcon: {
       foregroundImage: "./assets/logos/adaptive-icon.png",
-      backgroundColor: "#FFF6D1",
+      backgroundColor: "#fffbea",
     },
     edgeToEdgeEnabled: true,
   },

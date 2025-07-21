@@ -36,26 +36,7 @@ Run this and scan the QR code with the Expo Go app on your device.
 ## 📲 Custom Dev Client Workflows
 
 For deeper development and native module testing, use Expo Dev Client.
-
-### Real Device (Wi-Fi)
-
-```bash
-npm run dev:connect:device
-```
-
-Make sure your `.env` has your device IP:
-
-```env
-LUMEN_DEVICE_IP=<your device IP>
-```
-
-### Emulator
-
-Start your emulator (AVD) and run:
-
-```bash
-npm run dev:connect
-```
+Connect through ADB to real device or open an emulator.
 
 ---
 
